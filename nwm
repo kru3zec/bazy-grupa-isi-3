@@ -1,0 +1,210 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Nov 10 12:59:30 2022 from 213.184.8.151
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'kruszewskim'@'localhost' (using password: YES)
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'kruszewskim'@'localhost' (using password: YES)
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4653
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use kruszewskim
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from postacie;
++------------+----------+---------+---------+----------------+------------+------+
+| id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++------------+----------+---------+---------+----------------+------------+------+
+|          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | NULL    | handlowe       | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | NULL    | handlowe       | 1783-02-03 |   65 |
++------------+----------+---------+---------+----------------+------------+------+
+8 rows in set (0.01 sec)
+
+mysql> DELETE FROM postacie WHERE id_postaci = 7;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> DELETE FROM postacie WHERE id_postaci = 8;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> desc * postacie;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* postacie' at line 1
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+7 rows in set (0.01 sec)
+
+mysql> tje drop primary key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tje drop primary key' at line 1
+mysql> DROP INDEX id_postaci ON postacie;
+ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
+mysql> ALTER TABLE postacie DROP CONSTRAINT id_postaci;
+ERROR 3940 (HY000): Constraint 'id_postaci' does not exist.
+mysql> ALTER TABLE postacie DROP KEY id_postaci;
+ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
+mysql> ALTER TABLE postacie DROP PRIMARY KEY;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> ALTER TABLE postacie DROP PRIMARY KEY id_postaci;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
+mysql> SET foreign_key_checks = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET primary_key_checks = 0;
+ERROR 1193 (HY000): Unknown system variable 'primary_key_checks'
+mysql> ALTER TABLE postacie DROP PRIMARY KEY id_postaci;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
+mysql> ALTER TABLE postacie DROP PRIMARY KEY;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> ALTER TABLE postacie DROP FOREIGN KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER TABLE postacie DROP PRIMARY KEY(id_postaci);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id_postaci)' at line 1
+mysql> ALTER TABLE postacie DROP PRIMARY KEY;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> ALTER TABLE postacie DROP FOREIGN KEY(statek_postaci):
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci):' at line 1
+mysql> ALTER TABLE postacie DROP FOREIGN KEY(statek_postaci);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci)' at line 1
+mysql> ALTER TABLE postacie DROP FOREIGN KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER TABLE postacie DROP FOREIGN KEY (statek_postaci);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci)' at line 1
+mysql> ALTER TABLE postacie DROP FOREIGN KEY fk_statek_postaci;
+ERROR 1091 (42000): Can't DROP 'fk_statek_postaci'; check that column/key exists
+mysql> ALTER TABLE postacie DROP FOREIGN KEY statek_postaci;
+ERROR 1091 (42000): Can't DROP 'statek_postaci'; check that column/key exists
+mysql> ALTER TABLE postacie DROP FOREIGN KEY (statek_postaci) REFERENCES statek(nazwa_statku);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci) REFERENCES statek(nazwa_statku)' at line 1
+mysql> alter table postacie drop foreign key statek_postaci_ibfk_1;
+ERROR 1091 (42000): Can't DROP 'statek_postaci_ibfk_1'; check that column/key exists
+mysql> alter table postacie drop foreign key statek_postaci_ibfk;
+ERROR 1091 (42000): Can't DROP 'statek_postaci_ibfk'; check that column/key exists
+mysql> alter table postacie drop foreign key statek_postaci;
+ERROR 1091 (42000): Can't DROP 'statek_postaci'; check that column/key exists
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table postacie drop key statek_postaci;
+ERROR 1553 (HY000): Cannot drop index 'statek_postaci': needed in a foreign key constraint
+mysql> alter table postacie drop key id_postaci;
+ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
+mysql> alter table postacie drop primary key id_postaci;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
+mysql> alter table postacie drop primary key;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> SELECT
+    ->     CONSTRAINT_NAME
+    -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    -> WHERE REFERENCED_TABLE_NAME = 'postacie';
++------------------+
+| CONSTRAINT_NAME  |
++------------------+
+| walizka_ibfk_1   |
+| przetwory_ibfk_1 |
+| przetwory_ibfk_2 |
++------------------+
+3 rows in set (0.11 sec)
+
+mysql> ALTER TABLE postacie DROP FOREIGN KEY {walizka_ibfk_1/Key_name};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/Key_name}' at line 1
+mysql> ALTER TABLE postacie DROP FOREIGN KEY {walizka_ibfk_1/id_postaci};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
+mysql> ALTER TABLE postacie DROP CONSTRAINT {walizka_ibfk_1};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1}' at line 1
+mysql> ALTER TABLE postacie DROP CONSTRAINT {walizka_ibfk_1/id_postaci};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
+mysql> SELECT
+    ->     TABLE_NAME,
+    ->     COLUMN_NAME,
+    ->     CONSTRAINT_NAME,
+    ->     REFERENCED_TABLE_NAME,
+    ->     REFERENCED_COLUMN_NAME
+    -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    -> WHERE REFERENCED_TABLE_NAME = 'postacie';
++------------+----------------+------------------+-----------------------+------------------------+
+| TABLE_NAME | COLUMN_NAME    | CONSTRAINT_NAME  | REFERENCED_TABLE_NAME | REFERENCED_COLUMN_NAME |
++------------+----------------+------------------+-----------------------+------------------------+
+| walizka    | id_wlasciciela | walizka_ibfk_1   | postacie              | id_postaci             |
+| przetwory  | id_wykonawcy   | przetwory_ibfk_1 | postacie              | id_postaci             |
+| przetwory  | id_konsumenta  | przetwory_ibfk_2 | postacie              | id_postaci             |
++------------+----------------+------------------+-----------------------+------------------------+
+3 rows in set (0.10 sec)
+
+mysql> ALTER TABLE walizka DROP CONSTRAINT {walizka_ibfk_1/id_postaci};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
+mysql> ALTER TABLE walizka DROP CONSTRAINT {walizka_ibfk_1};
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1}' at line 1
+mysql> SELECT
+    ->     CONSTRAINT_NAME
+    -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    -> WHERE REFERENCED_TABLE_NAME = 'ReferenceTableName'
+    -> ;
+Empty set (0.10 sec)
+
+mysql> SELECT     KEY_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'postacie';
+ERROR 1054 (42S22): Unknown column 'KEY_NAME' in 'field list'
+mysql> desc walizka;
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| Field          | Type                                        | Null | Key | Default | Extra          |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| id_walizki     | int                                         | NO   | PRI | NULL    | auto_increment |
+| pojemnosc      | int unsigned                                | YES  |     | NULL    |                |
+| kolor          | enum('rozowy','czerwony','teczowy','zolty') | YES  |     | rozowy  |                |
+| id_wlasciciela | int                                         | YES  | MUL | NULL    |                |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE walizka DROP FOREIGN KEY id_walizki;
+ERROR 1091 (42000): Can't DROP 'id_walizki'; check that column/key exists
+mysql> ALTER TABLE walizka DROP PRIMARY KEY(id_walizki);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id_walizki)' at line 1
+mysql>
