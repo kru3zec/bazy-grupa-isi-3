@@ -1,0 +1,539 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Access denied
+kruszewskim@213.184.8.36's password:
+Access denied
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Nov 17 10:02:36 2022 from 213.184.7.9
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 5106
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use kruszewskim
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| przetwory             |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc przetwory;
++---------------+-------------+------+-----+------------------+-------+
+| Field         | Type        | Null | Key | Default          | Extra |
++---------------+-------------+------+-----+------------------+-------+
+| id_przetwory  | int         | NO   | PRI | NULL             |       |
+| rok_produkcji | year        | YES  |     | 1954             |       |
+| id_wykonawcy  | int         | YES  | MUL | NULL             |       |
+| zawartosc     | varchar(40) | YES  |     | NULL             |       |
+| dodatek       | varchar(40) | YES  |     | papryczka_chilli |       |
+| id_konsumenta | int         | YES  | MUL | NULL             |       |
++---------------+-------------+------+-----+------------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT
+    -> TABLE_NAME,
+    -> CONSTRAINT_NAME,
+    -> REFERENCED_TABLE_NAME,
+    -> REFERENCED_COLUMN_NAME
+    -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    -> WHERE REFERENCED_TABLE_NAME = 'przetwory';
+Empty set (0.13 sec)
+
+mysql> alter table przetwory DROP FOREIGN KEY id_konsumenta;
+ERROR 1091 (42000): Can't DROP 'id_konsumenta'; check that column/key exists
+mysql> alter table przetwory DROP FOREIGN KEY id_wykonawcy;
+ERROR 1091 (42000): Can't DROP 'id_wykonawcy'; check that column/key exists
+mysql> alter table przetwory DROP PRIMARY KEY id_przetowry;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_przetowry' at line 1
+mysql> alter table przetwory DROP FOREIGN KEY FK_przetwory;
+ERROR 1091 (42000): Can't DROP 'FK_przetwory'; check that column/key exists
+mysql> alter table przetwory DROP CONSTRAINT 'przetwory_ibfk_1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''przetwory_ibfk_1'' at line 1
+mysql> alter table przetwory DROP CONSTRAINT 'przetwory_ibfk';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''przetwory_ibfk'' at line 1
+mysql> alter table przetwory DROP CONSTRAINT 'przetwory_ibfk_2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''przetwory_ibfk_2'' at line 1
+mysql> alter table przetwory DROP CONSTRAINT "przetwory_ibfk_2"
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"przetwory_ibfk_2"' at line 1
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| przetwory             |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+5 rows in set (0.01 sec)
+
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table postacie drop column statek_postaci;
+ERROR 1828 (HY000): Cannot drop column 'statek_postaci': needed in a foreign key constraint 'postacie_ibfk_1'
+mysql> alter table postacie DROP CONSTRAINT "przetwory_ibfk_1"
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"przetwory_ibfk_1"' at line 1
+mysql> alter table postacie DROP CONSTRAINT "postacie_ibfk_1";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"postacie_ibfk_1"' at line 1
+mysql> drop table przetwory;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from walizka
+    -> ;
++------------+-----------+----------+----------------+
+| id_walizki | pojemnosc | kolor    | id_wlasciciela |
++------------+-----------+----------+----------------+
+|          1 |        60 | czerwony |              1 |
+|          2 |        99 | rozowy   |              3 |
++------------+-----------+----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> undo drop table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'undo drop table' at line 1
+mysql> list history dropped table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'list history dropped table' at line 1
+mysql> ALTER TABLE przetwory DROP CONSTRAINT przetwory_ibfk_1;
+ERROR 1146 (42S02): Table 'kruszewskim.przetwory' doesn't exist
+mysql> ALTER TABLE walizka DROP CONSTRAINT walizka_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE postac MODIFY COLUMN id_postaci INT AUTO_INCREMENT;
+ERROR 1146 (42S02): Table 'kruszewskim.postac' doesn't exist
+mysql> ALTER TABLE postacie MODIFY COLUMN id_postaci INT AUTO_INCREMENT;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE postac DROP PRIMARY KEY, CHANGE id_postaci id_postaci INT;
+ERROR 1146 (42S02): Table 'kruszewskim.postac' doesn't exist
+mysql> ALTER TABLE postacie DROP PRIMARY KEY, CHANGE id_postaci id_postaci INT;
+Query OK, 6 rows affected (0.08 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select nazwa,data_wydania from systemy;
++-----------------------------+--------------+
+| nazwa                       | data_wydania |
++-----------------------------+--------------+
+| Windows_1                   | 1987-04-08   |
+| Windows_2                   | 1989-03-14   |
+| Windows_3_build_14          | 1989-02-22   |
+| Windows_3_build_33          | 1989-07-27   |
+| Windows_3_RC6               | 1990-03-07   |
+| Windows_3                   | 1990-05-01   |
+| Windows_3.1                 | 1992-03-10   |
+| Windows_for_Workgroups_3.11 | 1993-10-21   |
+| Windows_NT_3.1              | 1994-10-05   |
+| Windows_NT_3.51             | 1996-09-20   |
++-----------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> alter table postacie add pesel CHAR(11) NOT NULL FIRST;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from postacie;
++-------+------------+----------+---------+---------+----------------+------------+------+
+| pesel | id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------+------------+----------+---------+---------+----------------+------------+------+
+|       |          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+|       |          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+|       |          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+|       |          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+|       |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+|       |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
++-------+------------+----------+---------+---------+----------------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> UPDATE postac SET pesel='11750283745' WHERE id_postaci=1;
+ERROR 1146 (42S02): Table 'kruszewskim.postac' doesn't exist
+mysql> UPDATE postacie SET pesel='11750283745' WHERE id_postaci=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='22960023119' WHERE id_postaci=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='11750283745' WHERE id_postaci=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='22960023119' WHERE id_postaci=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='33884599216' WHERE id_postaci=3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='44992046510' WHERE id_postaci=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='55939900234' WHERE id_postaci=5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE postacie SET pesel='66882267102' WHERE id_postaci=6;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from postacie;
++-------------+------------+----------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+----------+---------+---------+----------------+------------+------+
+| 11750283745 |          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
++-------------+------------+----------+---------+---------+----------------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> alter table postacie ADD PRIMARY KEY (pesel);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from postacie;
++-------------+------------+----------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+----------+---------+---------+----------------+------------+------+
+| 11750283745 |          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
++-------------+------------+----------+---------+---------+----------------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+-------+
+| Field          | Type                            | Null | Key | Default | Extra |
++----------------+---------------------------------+------+-----+---------+-------+
+| pesel          | char(11)                        | NO   | PRI | NULL    |       |
+| id_postaci     | int                             | YES  |     | NULL    |       |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |       |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |       |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |       |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |       |
+| data_ur        | date                            | YES  |     | NULL    |       |
+| wiek           | int unsigned                    | YES  |     | NULL    |       |
++----------------+---------------------------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table postacie modify column rodzaj ENUM('wiking','ptak','kobieta','syrena');
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into postacie (pesel,id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('99002358235','7','Gertruda Nieszczera','syrena','1792-04-17','20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from postacie;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast                | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> update postacie SET statek='Bismarck' WHERE nazwa LIKE '%a%';
+ERROR 1054 (42S22): Unknown column 'statek' in 'field list'
+mysql> update postacie SET statek_postaci='Bismarck' WHERE nazwa LIKE '%a%';
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+| 1            | handlowe      | 1769-04-12     |          1600 |
+| 2            | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> update postacie SET statek_postaci='2' WHERE nazwa LIKE '%a%';
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from postacie;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | 2              | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast                | wiking  | NULL    | 2              | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | 2              | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | 2              | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> update postacie SET statek_postaci='handlowe' WHERE nazwa LIKE '%a%';
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
+mysql> insert into statek (^C
+mysql> insert into statek ('nazwa_statku','rodzaj_statku',^C
+mysql> insert into statek ('nazwa_statku','rodzaj_statku','data_wodowania','max_ladownosc') VALUES ('3','bismarck','1770-03-12','2500');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nazwa_statku','rodzaj_statku','data_wodowania','max_ladownosc') VALUES ('3','bi' at line 1
+mysql> insert into statek ('nazwa_statku','rodzaj_statku','data_wodowania','max_ladownosc') VALUES('3','bismarck','1770-03-12','2500');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''nazwa_statku','rodzaj_statku','data_wodowania','max_ladownosc') VALUES('3','bis' at line 1
+mysql> insert into statek (nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('3','bismarck','1770-03-12','2500');
+ERROR 1265 (01000): Data truncated for column 'rodzaj_statku' at row 1
+mysql> insert into statek (nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('3','typ bismarck','1770-03-12','2500');
+ERROR 1265 (01000): Data truncated for column 'rodzaj_statku' at row 1
+mysql> UPDATE statek SET max_ladownosc = (max_ladownosc*0.7) WHERE year(data_wodowania) BETWEEN 1900 AND 2000;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> alter table postacie add check (wiek<1000);
+Query OK, 7 rows affected (0.06 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> alter table postacie modify column rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into postacie (pesel,id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('10952251045','8','Loko','waz','1811-05-19','3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> CREATE TABLE marynarz LIKE postacie;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO marynarz SELECT * FROM postac WHERE statek IS NOT NULL;
+ERROR 1146 (42S02): Table 'kruszewskim.postac' doesn't exist
+mysql> INSERT INTO marynarz SELECT * FROM postacie WHERE statek IS NOT NULL;
+ERROR 1054 (42S22): Unknown column 'statek' in 'where clause'
+mysql> INSERT INTO marynarz SELECT * FROM postacie WHERE statek_postaci IS NOT NULL;
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from marynarz;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | 2              | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast                | wiking  | NULL    | 2              | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | 2              | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | 2              | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> ALTER TABLE marynarz ADD FOREIGIN KEY(statek) REFERENCES statek(nazwa_statku);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(statek) REFERENCES statek(nazwa_statku)' at line 1
+mysql> ALTER TABLE marynarz ADD FOREIGIN KEY (statek) REFERENCES statek(nazwa_statku);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (statek) REFERENCES statek(nazwa_statku)' at line 1
+mysql> ALTER TABLE marynarz ADD FOREIGIN KEY (statek) REFERENCES statek(nazwa_statku);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (statek) REFERENCES statek(nazwa_statku)' at line 1
+mysql> ALTER TABLE marynarz ADD FOREIGN KEY (statek) REFERENCES statek(nazwa_statku);
+ERROR 1072 (42000): Key column 'statek' doesn't exist in table
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+| 1            | handlowe      | 1769-04-12     |          1600 |
+| 2            | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE marynarz ADD FOREIGN KEY (statek) REFERENCES statek(rodzaj_statku);
+ERROR 1072 (42000): Key column 'statek' doesn't exist in table
+mysql> ALTER TABLE marynarz ADD FOREIGN KEY (statki) REFERENCES statek(nazwa_statku);
+ERROR 1072 (42000): Key column 'statki' doesn't exist in table
+mysql> ALTER TABLE marynarz ADD FOREIGN KEY (postacie) REFERENCES statek(nazwa_statku);
+ERROR 1072 (42000): Key column 'postacie' doesn't exist in table
+mysql> ALTER TABLE marynarz ADD FOREIGN KEY (statek_postaci) REFERENCES statek(nazwa_statku);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`#sql-102_13f2`, CONSTRAINT `marynarz_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
+mysql> desc marynarz;
++----------------+------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                           | Null | Key | Default | Extra |
++----------------+------------------------------------------------+------+-----+---------+-------+
+| pesel          | char(11)                                       | NO   | PRI | NULL    |       |
+| id_postaci     | int                                            | YES  |     | NULL    |       |
+| nazwa          | varchar(40)                                    | YES  |     | NULL    |       |
+| rodzaj         | enum('wiking','ptak','kobieta','syrena','waz') | YES  |     | NULL    |       |
+| funkcja        | varchar(40)                                    | YES  |     | NULL    |       |
+| statek_postaci | varchar(40)                                    | YES  | MUL | NULL    |       |
+| data_ur        | date                                           | YES  |     | NULL    |       |
+| wiek           | int unsigned                                   | YES  |     | NULL    |       |
++----------------+------------------------------------------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from postacie;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 10952251045 |          8 | Loko                | waz     | NULL    | NULL           | 1811-05-19 |    3 |
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | 2              | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast                | wiking  | NULL    | 2              | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | 2              | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | 2              | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> update postacie SET statek_postaci='';
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
+mysql> update postacie SET statek_postaci='NULL';
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
+mysql> update postacie SET statek_postaci=NULL;
+Query OK, 7 rows affected (0.01 sec)
+Rows matched: 8  Changed: 7  Warnings: 0
+
+mysql> select * from postacie;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 10952251045 |          8 | Loko                | waz     | NULL    | NULL           | 1811-05-19 |    3 |
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | NULL           | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | NULL           | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | NULL           | 1785-12-17 |   67 |
+| 55939900234 |          5 | Gast                | wiking  | NULL    | NULL           | 1786-10-02 |   68 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | NULL           | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> DELETE FROM postacie WHERE id_postaci = 5;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from postacie;
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+| 10952251045 |          8 | Loko                | waz     | NULL    | NULL           | 1811-05-19 |    3 |
+| 11750283745 |          1 | Bjorn               | wiking  | kapitan | NULL           | 1788-05-03 |   69 |
+| 22960023119 |          2 | Drozd               | ptak    | NULL    | NULL           | 1808-11-02 |   10 |
+| 33884599216 |          3 | Tesciowa            | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+| 44992046510 |          4 | Prozd               | wiking  | NULL    | NULL           | 1785-12-17 |   67 |
+| 66882267102 |          6 | Hal                 | wiking  | NULL    | NULL           | 1790-04-25 |   71 |
+| 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
++-------------+------------+---------------------+---------+---------+----------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+| 1            | handlowe      | 1769-04-12     |          1600 |
+| 2            | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM statek WHERE id_postaci = 1;
+ERROR 1054 (42S22): Unknown column 'id_postaci' in 'where clause'
+mysql> DELETE FROM statek WHERE nazwa_statku = 1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> DELETE FROM statek WHERE nazwa_statku = 2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from statek;
+Empty set (0.00 sec)
+
+mysql> drop table statek;
+ERROR 3730 (HY000): Cannot drop table 'statek' referenced by a foreign key constraint 'postacie_ibfk_1' on table 'postacie'.
+mysql> ALTER TABLE walizka DROP CONSTRAINT walizka_ibfk_1;
+ERROR 3940 (HY000): Constraint 'walizka_ibfk_1' does not exist.
+mysql> ALTER TABLE walizka DROP CONSTRAINT walizka_ibfk_1;
+ERROR 3940 (HY000): Constraint 'walizka_ibfk_1' does not exist.
+mysql> ALTER TABLE postacie DROP CONSTRAINT postacie_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> drop table statek;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE zwierz(id INT AUTO_INCREMENT PRIMARY KEY,nazwa VARCHAR(40),wiek INT UNSIGNED);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc zwierz;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| nazwa | varchar(40)  | YES  |     | NULL    |                |
+| wiek  | int unsigned | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO zwierz (id,nazwa,wiek) VALUES ('8','Loko','3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO zwierz (id,nazwa,wiek) VALUES ('2','Drozd','10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from zwierz;
++----+-------+------+
+| id | nazwa | wiek |
++----+-------+------+
+|  2 | Drozd |   10 |
+|  8 | Loko  |    3 |
++----+-------+------+
+2 rows in set (0.01 sec)
+
+mysql> ^C
+mysql>
