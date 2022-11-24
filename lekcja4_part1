@@ -1,0 +1,295 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Nov 24 13:03:52 2022 from 213.184.8.151
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6227
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use kruszewskim
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+------                                     --+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwi                                     g |
++------------+----------------------------+----------+------------+------+------                                     --+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     8                                     0 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     8                                     5 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     8                                     1 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     6                                     6 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     7                                     2 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     4                                     9 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     8                                     7 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     9                                     3 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |                                           1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |                                           4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |                                           1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |                                           1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    60                                     0 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     4                                     0 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     2                                     5 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    10                                     0 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |                                           1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     1                                     2 |
+|         19 | Gollum                     | poczwara | 1100-10-10 | NULL |   NUL                                     L |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   100                                     0 |
++------------+----------------------------+----------+------------+------+------                                     --+
+20 rows in set (0.00 sec)
+
+mysql> mysql> select rodzaj,avg(waga) as 'srednia waga' from kreatura where rodzaj = 'wiking';
++--------+--------------+
+| rodzaj | srednia waga |
++--------+--------------+
+| wiking |      95.1111 |
++--------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,avg(waga) from kreatura;
++--------+-----------+
+| rodzaj | avg(waga) |
++--------+-----------+
+| wiking |  166.3684 |
++--------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,count(nazwa),avg(waga) from kreatura;
++--------+--------------+-----------+
+| rodzaj | count(nazwa) | avg(waga) |
++--------+--------------+-----------+
+| wiking |           20 |  166.3684 |
++--------+--------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura;
++--------+---------------+-----------+
+| rodzaj | count(rodzaj) | avg(waga) |
++--------+---------------+-----------+
+| wiking |            20 |  166.3684 |
++--------+---------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura group by rodzaj;
++----------+---------------+-----------+
+| rodzaj   | count(rodzaj) | avg(waga) |
++----------+---------------+-----------+
+| wiking   |             9 |   95.1111 |
+| ryba     |             2 | 1050.5000 |
+| waz      |             1 |    3.0000 |
+| ptak     |             2 |    2.0000 |
+| wiedzma  |             4 |   41.2500 |
+| malpa    |             1 |   32.0000 |
+| poczwara |             1 |      NULL |
++----------+---------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura group by rodzaj where rodzaj = 'wiking';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where rodzaj = 'wiking'' at line 1
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura where rodzaj = 'wiking';
++--------+---------------+-----------+
+| rodzaj | count(rodzaj) | avg(waga) |
++--------+---------------+-----------+
+| wiking |             9 |   95.1111 |
++--------+---------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura where rodzaj = 'wiking' group by rodzaj;
++--------+---------------+-----------+
+| rodzaj | count(rodzaj) | avg(waga) |
++--------+---------------+-----------+
+| wiking |             9 |   95.1111 |
++--------+---------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura  group by rodzaj;
++----------+---------------+-----------+
+| rodzaj   | count(rodzaj) | avg(waga) |
++----------+---------------+-----------+
+| wiking   |             9 |   95.1111 |
+| ryba     |             2 | 1050.5000 |
+| waz      |             1 |    3.0000 |
+| ptak     |             2 |    2.0000 |
+| wiedzma  |             4 |   41.2500 |
+| malpa    |             1 |   32.0000 |
+| poczwara |             1 |      NULL |
++----------+---------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select rodzaj,count(nazwa)as 'liczba kreatur',avg(waga)as 'srednia waga' from kreatura  group by rodzaj;
++----------+----------------+--------------+
+| rodzaj   | liczba kreatur | srednia waga |
++----------+----------------+--------------+
+| wiking   |              9 |      95.1111 |
+| ryba     |              2 |    1050.5000 |
+| waz      |              1 |       3.0000 |
+| ptak     |              2 |       2.0000 |
+| wiedzma  |              4 |      41.2500 |
+| malpa    |              1 |      32.0000 |
+| poczwara |              1 |         NULL |
++----------+----------------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+--------+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwig |
++------------+----------------------------+----------+------------+------+--------+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     80 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     85 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     81 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     66 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     72 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     49 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     87 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     93 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |      1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |      4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |      1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |      1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    600 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     40 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     25 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    100 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |      1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     12 |
+|         19 | Gollum                     | poczwara | 1100-10-10 | NULL |   NULL |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   1000 |
++------------+----------------------------+----------+------------+------+--------+
+20 rows in set (0.01 sec)
+
+mysql> select nazwa,2022-year(dataUr) from kreatura;
++----------------------------+-------------------+
+| nazwa                      | 2022-year(dataUr) |
++----------------------------+-------------------+
+| Bjorn                      |               352 |
+| Brutal                     |               350 |
+| Khorad                     |               351 |
+| Birgun                     |               347 |
+| Defgard                    |               348 |
+| Astrid                     |               345 |
+| Ibra                       |               348 |
+| Bjolkolur                  |               346 |
+| Nemo                       |               345 |
+| Loko                       |               345 |
+| Drozd                      |               347 |
+| Ara                        |               346 |
+| Szczeki                    |               348 |
+| Tesciowa                   |               367 |
+| Tiki                       |               350 |
+| Dziadek                    |               377 |
+| sztuczna szczeka tesciowej |               342 |
+| Tesciowa dziadka           |               392 |
+| Gollum                     |               922 |
+| Babajaga                   |              1022 |
++----------------------------+-------------------+
+20 rows in set (0.00 sec)
+
+mysql> select nazwa,avg(2022-year(dataUr)) from kreatura group by rodzaj;
++----------+------------------------+
+| nazwa    | avg(2022-year(dataUr)) |
++----------+------------------------+
+| Bjorn    |               351.5556 |
+| Nemo     |               346.5000 |
+| Loko     |               345.0000 |
+| Drozd    |               346.5000 |
+| Tesciowa |               530.7500 |
+| Tiki     |               350.0000 |
+| Gollum   |               922.0000 |
++----------+------------------------+
+7 rows in set (0.00 sec)
+
+mysql> select nazwa,avg(2022-year(dataUr)) as 'sredni wiek' from kreatura group by rodzaj;
++----------+-------------+
+| nazwa    | sredni wiek |
++----------+-------------+
+| Bjorn    |    351.5556 |
+| Nemo     |    346.5000 |
+| Loko     |    345.0000 |
+| Drozd    |    346.5000 |
+| Tesciowa |    530.7500 |
+| Tiki     |    350.0000 |
+| Gollum   |    922.0000 |
++----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select rodzaj,avg(2022-year(dataUr)) as 'sredni wiek' from kreatura group by rodzaj;
++----------+-------------+
+| rodzaj   | sredni wiek |
++----------+-------------+
+| wiking   |    351.5556 |
+| ryba     |    346.5000 |
+| waz      |    345.0000 |
+| ptak     |    346.5000 |
+| wiedzma  |    530.7500 |
+| malpa    |    350.0000 |
+| poczwara |    922.0000 |
++----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from zasob;
++----------+-------------------+--------+-------+----------------+--------------------+
+| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
++----------+-------------------+--------+-------+----------------+--------------------+
+|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie           |
+|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie          |
+|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie           |
+|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie           |
+|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie           |
+|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie           |
+|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie           |
+|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie           |
+|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie           |
+|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL               |
+|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL               |
+|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL               |
+|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL               |
+|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie            |
+|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie            |
+|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie            |
+|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie            |
+|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbrodni  |
+|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbrodni  |
+|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbrodni  |
+|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budowlany |
+|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budowlany |
+|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoczynku |
+|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoczynku |
+|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL               |
+|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL               |
+|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL               |
+|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie           |
++----------+-------------------+--------+-------+----------------+--------------------+
+28 rows in set (0.00 sec)
+
+mysql> select rodzaj,sum(waga) as 'suma wag' from zasob group by rodzaj;
++--------------------+----------+
+| rodzaj             | suma wag |
++--------------------+----------+
+| jedzenie           |   130.00 |
+| narzedzie          |    13.00 |
+| NULL               |     9.10 |
+| ubranie            |    33.10 |
+| narzedzie zbrodni  |     6.00 |
+| material budowlany |     0.60 |
+| miejsce wypoczynku |     4.00 |
++--------------------+----------+
+7 rows in set (0.00 sec)
+
+mysql>
