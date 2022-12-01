@@ -1,0 +1,252 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Dec  1 12:37:17 2022 from 213.184.8.151
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6948
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use wikingowie;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from zasob;
++----------+-------------------+--------+-------+----------------+--------------                                     ------+
+| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj                                                  |
++----------+-------------------+--------+-------+----------------+--------------                                     ------+
+|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie                                                |
+|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie                                               |
+|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie                                                |
+|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie                                                |
+|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie                                                |
+|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie                                                |
+|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie                                                |
+|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie                                                |
+|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie                                                |
+|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL                                                    |
+|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL                                                    |
+|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL                                                    |
+|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL                                                    |
+|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie                                                 |
+|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie                                                 |
+|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie                                                 |
+|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie                                                 |
+|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbr                                     odni  |
+|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbr                                     odni  |
+|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbr                                     odni  |
+|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budo                                     wlany |
+|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budo                                     wlany |
+|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoc                                     zynku |
+|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoc                                     zynku |
+|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL                                                    |
+|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL                                                    |
+|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL                                                    |
+|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie                                                |
++----------+-------------------+--------+-------+----------------+--------------                                     ------+
+28 rows in set (0.00 sec)
+
+mysql> mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum(waga*ilosc) > 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum' at line 1
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     2.000000 |
+| figa          |     1.000000 |
+| bataty        |     1.000000 |
+| stanik        |     0.200000 |
+| stanik        |     0.400000 |
+| lisc palmowy  |     0.100000 |
+| skora geparda |    30.000000 |
+| dzida         |     2.000000 |
+| pnacza        |     0.100000 |
+| deski         |     0.500000 |
++---------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by waga, ilosc having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     2.000000 |
+| figa          |     1.000000 |
+| stanik        |     0.200000 |
+| stanik        |     0.400000 |
+| lisc palmowy  |     0.100000 |
+| skora geparda |    30.000000 |
+| dzida         |     2.000000 |
+| pnacza        |     0.100000 |
+| deski         |     0.500000 |
++---------------+--------------+
+9 rows in set (0.01 sec)
+
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by asc waga, ilosc having sum(waga*ilosc) > 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc waga, ilosc having sum(waga*ilosc) > 10' at line 1
+mysql> select nazwa, avg(waga*ilosc) as "srednia waga" from zasob where ilosc >= 4 group by ilosc, ilosc having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |    24.000000 |
+| figa          |    24.000000 |
+| stanik        |    42.000000 |
+| lisc palmowy  |   100.000001 |
+| skora geparda |   108.500000 |
+| dzida         |    20.000000 |
+| pnacza        |    30.000000 |
++---------------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga*ilosc)/waga as "srednia waga" from zasob where ilosc >= 4 group by ilosc, ilosc having
+sum(waga*ilosc) > 10;
++---------------+-----------------+
+| nazwa         | srednia waga    |
++---------------+-----------------+
+| banan         |   12.0000000000 |
+| figa          |   24.0000000596 |
+| stanik        |  209.9999977648 |
+| lisc palmowy  | 1000.0000000000 |
+| skora geparda |    3.6166666667 |
+| dzida         |   10.0000000000 |
+| pnacza        |  300.0000000000 |
++---------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by asc waga, ilosc having sum(waga*ilosc) > 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc waga, ilosc having sum(waga*ilosc) > 10' at line 1
+mysql> select nazwa, avg(waga*ilosc)/waga as "srednia waga" from zasob where ilosc >= 4 group by ilosc, ilosc having
+sum(waga*ilosc) > 10;
++---------------+-----------------+
+| nazwa         | srednia waga    |
++---------------+-----------------+
+| banan         |   12.0000000000 |
+| figa          |   24.0000000596 |
+| stanik        |  209.9999977648 |
+| lisc palmowy  | 1000.0000000000 |
+| skora geparda |    3.6166666667 |
+| dzida         |   10.0000000000 |
+| pnacza        |  300.0000000000 |
++---------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by waga, ilosc having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     2.000000 |
+| figa          |     1.000000 |
+| stanik        |     0.200000 |
+| stanik        |     0.400000 |
+| lisc palmowy  |     0.100000 |
+| skora geparda |    30.000000 |
+| dzida         |     2.000000 |
+| pnacza        |     0.100000 |
+| deski         |     0.500000 |
++---------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa,waga ilosc ha
+ving sum(waga*ilosc) > 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ilosc having sum(waga*ilosc) > 10' at line 1
+mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa ilosc having sum(waga*ilosc) > 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ilosc having sum(waga*ilosc) > 10' at line 1
+mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) > 10;
++---------------+---------------+
+| nazwa         | srednia waga  |
++---------------+---------------+
+| banan         |  1.2916666667 |
+| figa          |  1.0000000000 |
+| bataty        |  1.0000000000 |
+| stanik        |  0.1041666685 |
+| lisc palmowy  |  0.1000000015 |
+| skora geparda | 30.0000000000 |
+| dzida         |  2.0000000000 |
+| pnacza        |  0.1000000015 |
+| deski         |  0.5000000000 |
++---------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) >
+10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     1.500000 |
+| figa          |     1.000000 |
+| bataty        |     1.000000 |
+| stanik        |     0.275000 |
+| lisc palmowy  |     0.100000 |
+| skora geparda |    30.000000 |
+| dzida         |     2.000000 |
+| pnacza        |     0.100000 |
+| deski         |     0.500000 |
++---------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, avg((waga*ilosc)/ilosc) as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) > 10;
++---------------+---------------+
+| nazwa         | srednia waga  |
++---------------+---------------+
+| banan         |  1.5000000000 |
+| figa          |  1.0000000000 |
+| bataty        |  1.0000000000 |
+| stanik        |  0.2750000060 |
+| lisc palmowy  |  0.1000000015 |
+| skora geparda | 30.0000000000 |
+| dzida         |  2.0000000000 |
+| pnacza        |  0.1000000015 |
+| deski         |  0.5000000000 |
++---------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, sum(waga)/sum(ilosc) as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     0.157895 |
+| figa          |     0.033333 |
+| bataty        |     0.033333 |
+| stanik        |     0.005238 |
+| lisc palmowy  |     0.000100 |
+| skora geparda |     4.285714 |
+| dzida         |     0.200000 |
+| pnacza        |     0.000333 |
+| deski         |     0.004167 |
++---------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, sum(waga)*ilosc/sum(ilosc) as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) > 10;
++---------------+--------------+
+| nazwa         | srednia waga |
++---------------+--------------+
+| banan         |     1.894737 |
+| figa          |     1.000000 |
+| bataty        |     1.000000 |
+| stanik        |     0.628571 |
+| lisc palmowy  |     0.100000 |
+| skora geparda |    30.000000 |
+| dzida         |     2.000000 |
+| pnacza        |     0.100000 |
+| deski         |     0.500000 |
++---------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select nazwa, sum(waga)*ilosc/sum^Closc) as "srednia waga" from zasob where ilosc >= 4 group by nazwa having smysql> *ilosc) > 10;
+mysql>
