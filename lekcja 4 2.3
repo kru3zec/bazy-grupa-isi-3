@@ -1,0 +1,184 @@
+
+    ->
+    -> select * from zasob;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql>
+
+
+select * from zasob' at line 1
+mysql>  select * from zasob;
++----------+-------------------+--------+-------+----------------+--------------------+
+| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
++----------+-------------------+--------+-------+----------------+--------------------+
+|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie           |
+|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie          |
+|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie           |
+|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie           |
+|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie           |
+|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie           |
+|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie           |
+|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie           |
+|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie           |
+|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL               |
+|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL               |
+|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL               |
+|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL               |
+|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie            |
+|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie            |
+|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie            |
+|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie            |
+|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbrodni  |
+|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbrodni  |
+|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbrodni  |
+|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budowlany |
+|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budowlany |
+|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoczynku |
+|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoczynku |
+|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL               |
+|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL               |
+|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL               |
+|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie           |
++----------+-------------------+--------+-------+----------------+--------------------+
+28 rows in set (0.00 sec)
+
+mysql> select distinct nazwa;
+ERROR 1054 (42S22): Unknown column 'nazwa' in 'field list'
+mysql> select
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select count(rodzaj) from zasob group by rodzaj;
++---------------+
+| count(rodzaj) |
++---------------+
+|             9 |
+|             1 |
+|             0 |
+|             4 |
+|             3 |
+|             2 |
+|             2 |
++---------------+
+7 rows in set (0.00 sec)
+
+mysql> select rodzja, count(rodzaj) from zasob group by rodzaj;
+ERROR 1054 (42S22): Unknown column 'rodzja' in 'field list'
+mysql> select rodzaj, count(rodzaj) from zasob group by rodzaj;
++--------------------+---------------+
+| rodzaj             | count(rodzaj) |
++--------------------+---------------+
+| jedzenie           |             9 |
+| narzedzie          |             1 |
+| NULL               |             0 |
+| ubranie            |             4 |
+| narzedzie zbrodni  |             3 |
+| material budowlany |             2 |
+| miejsce wypoczynku |             2 |
++--------------------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> select rodzaj, count(rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------------------+-------------+
+| rodzaj             | rozne nazwy |
++--------------------+-------------+
+| ubranie            |           4 |
+| material budowlany |           2 |
++--------------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select nazwa, count(rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------+-------------+
+| nazwa  | rozne nazwy |
++--------+-------------+
+| buty   |           4 |
+| pnacza |           2 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------------------+-------------+
+| rodzaj             | rozne nazwy |
++--------------------+-------------+
+| ubranie            |           4 |
+| material budowlany |           2 |
++--------------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(rodzaj)>1;
+Empty set, 6 warnings (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(nazwa)>1;
+Empty set, 7 warnings (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(rodzaj)>1;
+Empty set, 6 warnings (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------------------+-------------+
+| rodzaj             | rozne nazwy |
++--------------------+-------------+
+| ubranie            |           4 |
+| material budowlany |           2 |
++--------------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select rodzaj, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------------------+-------------+
+| rodzaj             | rozne nazwy |
++--------------------+-------------+
+| ubranie            |           4 |
+| material budowlany |           2 |
++--------------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select ilosc, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++-------+-------------+
+| ilosc | rozne nazwy |
++-------+-------------+
+|     2 |           4 |
+|   300 |           2 |
++-------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select nazwa, count(ilosc,rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1' at line 1
+mysql> select nazwa, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------+-------------+
+| nazwa  | rozne nazwy |
++--------+-------------+
+| buty   |           4 |
+| pnacza |           2 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select nazwa, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------+-------------+
+| nazwa  | rozne nazwy |
++--------+-------------+
+| buty   |           4 |
+| pnacza |           2 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select ilosc, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++-------+-------------+
+| ilosc | rozne nazwy |
++-------+-------------+
+|     2 |           4 |
+|   300 |           2 |
++-------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select rodzaj, count(nazwa) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
++--------------------+-------------+
+| rodzaj             | rozne nazwy |
++--------------------+-------------+
+| ubranie            |           4 |
+| material budowlany |           2 |
++--------------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>
