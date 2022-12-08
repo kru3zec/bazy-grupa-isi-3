@@ -1,0 +1,525 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Dec  1 13:06:59 2022 from 213.184.8.151
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7548
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use wikingowie;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_wikingowie |
++----------------------+
+| ekwipunek            |
+| etapy_wyprawy        |
+| kreatura             |
+| sektor               |
+| uczestnicy           |
+| wyprawa              |
+| zasob                |
++----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from ekwipunek;
++-------------+------------+----------+-------+
+| idEkwipunku | idKreatury | idZasobu | ilosc |
++-------------+------------+----------+-------+
+|           1 |          1 |        1 |     2 |
+|           2 |          1 |       10 |     1 |
+|           3 |          1 |       14 |     3 |
+|           4 |          1 |       15 |    53 |
+|           5 |          1 |        2 |     3 |
+|           6 |          2 |        2 |     2 |
+|           7 |          2 |        4 |     2 |
+|           8 |          1 |       23 |     1 |
+|           9 |          1 |       18 |     1 |
+|          10 |          6 |        1 |     4 |
+|          11 |          3 |       17 |     1 |
+|          12 |          7 |       16 |     1 |
+|          13 |          7 |       19 |     1 |
+|          14 |         14 |       25 |     2 |
+|          15 |         14 |       27 |     1 |
+|          16 |         14 |       24 |     1 |
+|          17 |         14 |       26 |     1 |
+|          18 |          6 |       20 |     1 |
+|          19 |          5 |       17 |     2 |
+|          20 |          8 |       21 |     2 |
+|          21 |         11 |       13 |     1 |
+|          22 |          8 |       22 |    10 |
+|          23 |         13 |        9 |     1 |
+|          24 |          5 |        2 |     2 |
+|          25 |          5 |       21 |    50 |
+|          26 |          5 |       16 |     1 |
+|          27 |       NULL |       12 |    34 |
+|          28 |          6 |       13 |     1 |
++-------------+------------+----------+-------+
+28 rows in set (0.00 sec)
+
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+--------+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwig |
++------------+----------------------------+----------+------------+------+--------+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     80 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     85 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     81 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     66 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     72 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     49 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     87 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     93 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |      1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |      4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |      1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |      1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    600 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     40 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     25 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    100 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |      1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     12 |
+|         19 | Gollum                     | Poczwara | 1100-10-10 | NULL |   NULL |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   1000 |
++------------+----------------------------+----------+------------+------+--------+
+20 rows in set (0.00 sec)
+
+mysql> select nazwa from kreatura;
++----------------------------+
+| nazwa                      |
++----------------------------+
+| Bjorn                      |
+| Brutal                     |
+| Khorad                     |
+| Birgun                     |
+| Defgard                    |
+| Astrid                     |
+| Ibra                       |
+| Bjolkolur                  |
+| Nemo                       |
+| Loko                       |
+| Drozd                      |
+| Ara                        |
+| Szczeki                    |
+| Tesciowa                   |
+| Tiki                       |
+| Dziadek                    |
+| sztuczna szczeka tesciowej |
+| Tesciowa dziadka           |
+| Gollum                     |
+| Babajaga                   |
++----------------------------+
+20 rows in set (0.00 sec)
+
+mysql> select nazwa from kreatura where dataUr = '1670';
+ERROR 1525 (HY000): Incorrect DATE value: '1670'
+mysql> select nazwa from kreatura where dataUr = '1670-01-01'
+    -> ;
+Empty set (0.01 sec)
+
+mysql> select nazwa from kreatura where dataUr = '1670-02-01'
+    -> ;
+Empty set (0.00 sec)
+
+mysql> select nazwa from kreatura where dataUr between '1671-01-01' and '1680-12-31';
++----------------------------+
+| nazwa                      |
++----------------------------+
+| Brutal                     |
+| Khorad                     |
+| Birgun                     |
+| Defgard                    |
+| Astrid                     |
+| Ibra                       |
+| Bjolkolur                  |
+| Nemo                       |
+| Loko                       |
+| Drozd                      |
+| Ara                        |
+| Szczeki                    |
+| Tiki                       |
+| sztuczna szczeka tesciowej |
++----------------------------+
+14 rows in set (0.00 sec)
+
+mysql> select * from zasob;
++----------+-------------------+--------+-------+----------------+--------------------+
+| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
++----------+-------------------+--------+-------+----------------+--------------------+
+|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie           |
+|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie          |
+|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie           |
+|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie           |
+|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie           |
+|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie           |
+|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie           |
+|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie           |
+|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie           |
+|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL               |
+|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL               |
+|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL               |
+|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL               |
+|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie            |
+|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie            |
+|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie            |
+|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie            |
+|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbrodni  |
+|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbrodni  |
+|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbrodni  |
+|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budowlany |
+|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budowlany |
+|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoczynku |
+|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoczynku |
+|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL               |
+|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL               |
+|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL               |
+|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie           |
++----------+-------------------+--------+-------+----------------+--------------------+
+28 rows in set (0.00 sec)
+
+mysql> select nazwa from kreatura join nazwa on zasob  where dataUr between '1671-01-01' and '1680-12-31';
+ERROR 1146 (42S02): Table 'wikingowie.nazwa' doesn't exist
+mysql> select nazwa from kreatura join rodzaj on zasob  where dataUr between '1671-01-01' and '1680-12-31';
+ERROR 1146 (42S02): Table 'wikingowie.rodzaj' doesn't exist
+mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where dataUr between
+ '1671-01-01' and '1680-12-31';
+ERROR 1054 (42S22): Unknown column 'nazwa.kreatura' in 'field list'
+mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatura == 'wiking' having year(dataUr) like '167%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '== 'wiking' having year(dataUr) like '167%'' at line 1
+mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatura = 'wiking' having year(dataUr) like '167%';
+ERROR 1054 (42S22): Unknown column 'nazwa.kreatura' in 'field list'
+mysql> select kreatura.nazwa,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatur
+a = 'wiking' having year(dataUr) like '167%';
+ERROR 1054 (42S22): Unknown column 'nazwa.zasob' in 'field list'
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatur
+a = 'wiking' having year(dataUr) like '167%';
+ERROR 1054 (42S22): Unknown column 'rodzaj.kreatura' in 'where clause'
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having year(dataUr) like '167%';
+ERROR 1054 (42S22): Unknown column 'dataUr' in 'having clause'
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having year like '167%';
+ERROR 1054 (42S22): Unknown column 'year' in 'having clause'
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having dataUr like '167%';
+ERROR 1054 (42S22): Unknown column 'dataUr' in 'having clause'
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%';
+Empty set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
+Empty set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek as  natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '16' at line 1
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
+Empty set (0.00 sec)
+
+mysql> select nazwa from kreatura natural join ekwipunek;
++-----------+
+| nazwa     |
++-----------+
+| Bjorn     |
+| Bjorn     |
+| Bjorn     |
+| Bjorn     |
+| Bjorn     |
+| Bjorn     |
+| Bjorn     |
+| Brutal    |
+| Brutal    |
+| Khorad    |
+| Defgard   |
+| Defgard   |
+| Defgard   |
+| Defgard   |
+| Astrid    |
+| Astrid    |
+| Astrid    |
+| Ibra      |
+| Ibra      |
+| Bjolkolur |
+| Bjolkolur |
+| Drozd     |
+| Szczeki   |
+| Tesciowa  |
+| Tesciowa  |
+| Tesciowa  |
+| Tesciowa  |
++-----------+
+27 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,idZasobu from kreatura natural join ekwipunek where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%';
++-----------+----------+
+| nazwa     | idZasobu |
++-----------+----------+
+| Bjorn     |        1 |
+| Bjorn     |       10 |
+| Bjorn     |       14 |
+| Bjorn     |       15 |
+| Bjorn     |        2 |
+| Bjorn     |       23 |
+| Bjorn     |       18 |
+| Brutal    |        2 |
+| Brutal    |        4 |
+| Khorad    |       17 |
+| Defgard   |       17 |
+| Defgard   |        2 |
+| Defgard   |       21 |
+| Defgard   |       16 |
+| Astrid    |        1 |
+| Astrid    |       20 |
+| Astrid    |       13 |
+| Ibra      |       16 |
+| Ibra      |       19 |
+| Bjolkolur |       21 |
+| Bjolkolur |       22 |
++-----------+----------+
+21 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,idZasobu from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj =
+ 'wiking' and year(dataUr) like '167%';
+Empty set (0.00 sec)
+
+mysql> select kreatura.nazwa,idZasobu from kreatura natural join ekwipunek,zasob where kreatura.rodzaj = 'wiking' and
+ year(dataUr) like '167%';
+ERROR 1052 (23000): Column 'idZasobu' in field list is ambiguous
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%';
++-----------+----------+---------------+
+| nazwa     | idZasobu | nazwa         |
++-----------+----------+---------------+
+| Bjorn     |        1 | kokos         |
+| Bjorn     |       10 | stanik        |
+| Bjorn     |       14 | buty          |
+| Bjorn     |       15 | lisc palmowy  |
+| Bjorn     |        2 | siekiera      |
+| Brutal    |        2 | siekiera      |
+| Brutal    |        4 | kokos         |
+| Bjorn     |       23 | hamak         |
+| Bjorn     |       18 | topor         |
+| Astrid    |        1 | kokos         |
+| Khorad    |       17 | kiel slonia   |
+| Ibra      |       16 | skora geparda |
+| Ibra      |       19 | dzida         |
+| Astrid    |       20 | luk           |
+| Defgard   |       17 | kiel slonia   |
+| Bjolkolur |       21 | pnacza        |
+| Bjolkolur |       22 | deski         |
+| Defgard   |        2 | siekiera      |
+| Defgard   |       21 | pnacza        |
+| Defgard   |       16 | skora geparda |
+| Astrid    |       13 | stanik        |
++-----------+----------+---------------+
+21 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by kreatura;
+ERROR 1054 (42S22): Unknown column 'kreatura' in 'group statement'
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by nazwa;
+ERROR 1052 (23000): Column 'nazwa' in group statement is ambiguous
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by kreatura.nazwa;
++-----------+----------+---------------+
+| nazwa     | idZasobu | nazwa         |
++-----------+----------+---------------+
+| Bjorn     |        1 | kokos         |
+| Brutal    |        2 | siekiera      |
+| Khorad    |       17 | kiel slonia   |
+| Defgard   |       17 | kiel slonia   |
+| Astrid    |        1 | kokos         |
+| Ibra      |       16 | skora geparda |
+| Bjolkolur |       21 | pnacza        |
++-----------+----------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' order by kreatura.nazwa;
++-----------+----------+---------------+
+| nazwa     | idZasobu | nazwa         |
++-----------+----------+---------------+
+| Astrid    |        1 | kokos         |
+| Astrid    |       20 | luk           |
+| Astrid    |       13 | stanik        |
+| Bjolkolur |       21 | pnacza        |
+| Bjolkolur |       22 | deski         |
+| Bjorn     |        1 | kokos         |
+| Bjorn     |       10 | stanik        |
+| Bjorn     |       14 | buty          |
+| Bjorn     |       15 | lisc palmowy  |
+| Bjorn     |        2 | siekiera      |
+| Bjorn     |       23 | hamak         |
+| Bjorn     |       18 | topor         |
+| Brutal    |        2 | siekiera      |
+| Brutal    |        4 | kokos         |
+| Defgard   |       17 | kiel slonia   |
+| Defgard   |        2 | siekiera      |
+| Defgard   |       21 | pnacza        |
+| Defgard   |       16 | skora geparda |
+| Ibra      |       16 | skora geparda |
+| Ibra      |       19 | dzida         |
+| Khorad    |       17 | kiel slonia   |
++-----------+----------+---------------+
+21 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa as 'nazwa zasobu' from kreatura natural join ekwipunek jo
+in zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' order b
+y kreatura.nazwa;
++-----------+----------+---------------+
+| nazwa     | idZasobu | nazwa zasobu  |
++-----------+----------+---------------+
+| Astrid    |        1 | kokos         |
+| Astrid    |       20 | luk           |
+| Astrid    |       13 | stanik        |
+| Bjolkolur |       21 | pnacza        |
+| Bjolkolur |       22 | deski         |
+| Bjorn     |        1 | kokos         |
+| Bjorn     |       10 | stanik        |
+| Bjorn     |       14 | buty          |
+| Bjorn     |       15 | lisc palmowy  |
+| Bjorn     |        2 | siekiera      |
+| Bjorn     |       23 | hamak         |
+| Bjorn     |       18 | topor         |
+| Brutal    |        2 | siekiera      |
+| Brutal    |        4 | kokos         |
+| Defgard   |       17 | kiel slonia   |
+| Defgard   |        2 | siekiera      |
+| Defgard   |       21 | pnacza        |
+| Defgard   |       16 | skora geparda |
+| Ibra      |       16 | skora geparda |
+| Ibra      |       19 | dzida         |
+| Khorad    |       17 | kiel slonia   |
++-----------+----------+---------------+
+21 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa as 'nazwa zasobu',kreatura.dataUr from kreatura natural j
+oin ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) lik
+e '167%' order by kreatura.nazwa;
++-----------+----------+---------------+------------+
+| nazwa     | idZasobu | nazwa zasobu  | dataUr     |
++-----------+----------+---------------+------------+
+| Astrid    |        1 | kokos         | 1677-08-18 |
+| Astrid    |       20 | luk           | 1677-08-18 |
+| Astrid    |       13 | stanik        | 1677-08-18 |
+| Bjolkolur |       21 | pnacza        | 1676-03-30 |
+| Bjolkolur |       22 | deski         | 1676-03-30 |
+| Bjorn     |        1 | kokos         | 1670-04-01 |
+| Bjorn     |       10 | stanik        | 1670-04-01 |
+| Bjorn     |       14 | buty          | 1670-04-01 |
+| Bjorn     |       15 | lisc palmowy  | 1670-04-01 |
+| Bjorn     |        2 | siekiera      | 1670-04-01 |
+| Bjorn     |       23 | hamak         | 1670-04-01 |
+| Bjorn     |       18 | topor         | 1670-04-01 |
+| Brutal    |        2 | siekiera      | 1672-12-24 |
+| Brutal    |        4 | kokos         | 1672-12-24 |
+| Defgard   |       17 | kiel slonia   | 1674-07-05 |
+| Defgard   |        2 | siekiera      | 1674-07-05 |
+| Defgard   |       21 | pnacza        | 1674-07-05 |
+| Defgard   |       16 | skora geparda | 1674-07-05 |
+| Ibra      |       16 | skora geparda | 1674-02-03 |
+| Ibra      |       19 | dzida         | 1674-02-03 |
+| Khorad    |       17 | kiel slonia   | 1671-07-15 |
++-----------+----------+---------------+------------+
+21 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.rodzaj from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where zasob.rodzaj = 'jedzenie' order by dataUr limit 5;
++---------+----------+
+| nazwa   | rodzaj   |
++---------+----------+
+| Bjorn   | jedzenie |
+| Brutal  | jedzenie |
+| Szczeki | jedzenie |
+| Astrid  | jedzenie |
++---------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where zasob.rodzaj = 'jedzenie' order by kreatura.dataUr desc limit 5;
++---------+-------+
+| nazwa   | nazwa |
++---------+-------+
+| Astrid  | kokos |
+| Szczeki | opos  |
+| Brutal  | kokos |
+| Bjorn   | kokos |
++---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa,kreatura.dataUr from kreatura natural join ekwipunek join zasob on ekwipunek
+.idZasobu = zasob.idZasobu where zasob.rodzaj = 'jedzenie' order by kreatura.dataUr desc limit 5;
++---------+-------+------------+
+| nazwa   | nazwa | dataUr     |
++---------+-------+------------+
+| Astrid  | kokos | 1677-08-18 |
+| Szczeki | opos  | 1674-04-06 |
+| Brutal  | kokos | 1672-12-24 |
+| Bjorn   | kokos | 1670-04-01 |
++---------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa,kreatura.dataUr from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where zasob.rodzaj = 'jedzenie' order by kreatura.dataUr asc limit 5;
++---------+-------+------------+
+| nazwa   | nazwa | dataUr     |
++---------+-------+------------+
+| Bjorn   | kokos | 1670-04-01 |
+| Brutal  | kokos | 1672-12-24 |
+| Szczeki | opos  | 1674-04-06 |
+| Astrid  | kokos | 1677-08-18 |
++---------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,zasob.nazwa,kreatura.dataUr from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where zasob.rodzaj = 'jedzenie' order by kreatura.dataUr desc limit 5;
++---------+-------+------------+
+| nazwa   | nazwa | dataUr     |
++---------+-------+------------+
+| Astrid  | kokos | 1677-08-18 |
+| Szczeki | opos  | 1674-04-06 |
+| Brutal  | kokos | 1672-12-24 |
+| Bjorn   | kokos | 1670-04-01 |
++---------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select kreatura1.nazwa, kreatura2.nazwa from kreatura kreatura1 join kreatura kreatura2 on kreatura1.idKreatury=kreatura2.idKreatury-5;
++-----------+----------------------------+
+| nazwa     | nazwa                      |
++-----------+----------------------------+
+| Bjorn     | Astrid                     |
+| Brutal    | Ibra                       |
+| Khorad    | Bjolkolur                  |
+| Birgun    | Nemo                       |
+| Defgard   | Loko                       |
+| Astrid    | Drozd                      |
+| Ibra      | Ara                        |
+| Bjolkolur | Szczeki                    |
+| Nemo      | Tesciowa                   |
+| Loko      | Tiki                       |
+| Drozd     | Dziadek                    |
+| Ara       | sztuczna szczeka tesciowej |
+| Szczeki   | Tesciowa dziadka           |
+| Tesciowa  | Gollum                     |
++-----------+----------------------------+
+14 rows in set (0.00 sec)
+
+mysql> select kreatura.rodzaj, avg(zasob.waga) as waga from kreatura join ekwipunek on kreatura.idKreatury=ekwipunek.idKreatury join zasob on zasob.idZasobu=ekwipunek.idZasobu where kreatura.rodzaj not in("malpa","waz") and ekwipunek.ilosc<30 group by kreatura.rodzaj;
++---------+-----------+
+| rodzaj  | waga      |
++---------+-----------+
+| wiking  |  6.473684 |
+| wiedzma |  2.500000 |
+| ptak    |  0.200000 |
+| ryba    | 12.000000 |
++---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql>
