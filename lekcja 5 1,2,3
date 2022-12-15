@@ -1,0 +1,288 @@
+login as: kruszewskim
+kruszewskim@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Dec  8 12:56:56 2022 from 213.184.8.151
+kruszewskim@bad2:~$ mysql -u kruszewskim -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8095
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use wikingowie;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_wikingowie |
++----------------------+
+| ekwipunek            |
+| etapy_wyprawy        |
+| kreatura             |
+| sektor               |
+| uczestnicy           |
+| wyprawa              |
+| zasob                |
++----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+--------+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwig |
++------------+----------------------------+----------+------------+------+--------+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     80 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     85 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     81 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     66 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     72 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     49 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     87 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     93 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |      1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |      4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |      1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |      1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    600 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     40 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     25 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    100 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |      1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     12 |
+|         19 | Gollum                     | Poczwara | 1100-10-10 | NULL |   NULL |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   1000 |
++------------+----------------------------+----------+------------+------+--------+
+20 rows in set (0.00 sec)
+
+mysql> select * from uczestnicy;
++------------+---------------+
+| id_wyprawy | id_uczestnika |
++------------+---------------+
+|          2 |             1 |
+|          3 |             1 |
+|          3 |             3 |
+|          2 |             4 |
+|          3 |             6 |
+|          2 |             7 |
+|          3 |             8 |
+|          1 |             9 |
+|          2 |            10 |
+|          2 |            11 |
+|          3 |            11 |
+|          2 |            13 |
+|          1 |            14 |
+|          1 |            15 |
+|          2 |            16 |
+|          3 |            16 |
+|          1 |            17 |
+|          1 |            18 |
++------------+---------------+
+18 rows in set (0.00 sec)
+
+mysql> select * from etapy_wyprawy;
++---------+-----------+--------+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| idEtapu | idWyprawy | sektor | kolejnosc | dziennik                                                                                                                                                  |
++---------+-----------+--------+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|       1 |         1 |      6 |         1 | Wyruszam na poszukiwanie tego smierdzcego szczura ladowego!                                                                                               |
+|       2 |         1 |      5 |         2 | Wulkan to dobre miejsce na uzupelnnienie zapasow ognia tesciowej :)                                                                                       |
+|       3 |         1 |      1 |         3 | Mimo usilnych prob nawiazania przyjaznych stosunkow z kanibalami, zaden z nich nie odwazyl sie ze mna porozmawiac                                         |
+|       4 |         1 |      4 |         4 | Aaaaaa psik... psia kosc!                                                                                                                                 |
+|       5 |         1 |      7 |         5 | Ach, wyglada na to, ze niedawno tutaj byl. Zaczaje sie w pobliskich zaroslach...                                                                          |
+|       6 |         2 |      8 |         1 | Coco jumbo i do przodu. Huzia na tesciowa!                                                                                                                |
+|       7 |         2 |      7 |         2 | Po drodze zgarnelismy dziadka, ktory zostal naszym przewodnikiem.                                                                                         |
+|       8 |         2 |      5 |         3 | Uff jak goraco... Jakbym czul oddech tesciowej na plecach...                                                                                              |
+|       9 |         2 |      9 |         4 | Widzieliscie kiedys ktorakolwiek czesc filmu "Szczeki" ?                                                                                                  |
+|      10 |         2 |      6 |         5 | Jest niemal pewne, ze ta stara wiedzma niedawno tutaj byla. Zaczaimy sie i poczekamy...                                                                   |
+|      11 |         3 |      7 |         1 | Wyspa wydaje mi sie podobna do tej z "Robinsona Cruzo'e". Moze lepiej przygotowac sie na ewentualne spotkanie z kanibalami. Tesciowa nada sie znakomicie! |
+|      12 |         3 |      6 |         2 | Ech, nie ma jej tutaj. Musimy poszukac innej ofiary dla tych ludojadow.                                                                                   |
+|      13 |         3 |      9 |         3 | Duzy rekin nie powinien byc zly. Tylko czego tu uzyc jako przynety... Astrid, podejdz no na chwilke.                                                      |
+|      14 |         3 |      5 |         4 | Moze by tego rekina najpierw usmazyc w wulkanie ?                                                                                                         |
+|      15 |         3 |      1 |         5 | Lepiej nie czekac, az sami przyjda. Chlopaki, dawajcie te "rybke"!                                                                                        |
++---------+-----------+--------+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from wyprawa;
++------------+-----------------------+------------------+------------------+-----------+
+| id_wyprawy | nazwa                 | data_rozpoczecia | data_zakonczenia | kierownik |
++------------+-----------------------+------------------+------------------+-----------+
+|          1 | Poszukiwanie ziecia   | 1700-08-02       | 1700-08-04       |        14 |
+|          2 | Polowanie na tesciowa | 1700-08-04       | 1700-08-06       |         1 |
+|          3 | Nakarm kanibala       | 1700-08-02       | 1700-08-04       |        16 |
+|          4 | nikt nie idzie        | 2020-01-01       | 2020-01-02       |      NULL |
++------------+-----------------------+------------------+------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from sektor;
++------------+--------------------+---------------+---------------+
+| id_sektora | nazwa              | wspolrzedna_x | wspolrzedna_y |
++------------+--------------------+---------------+---------------+
+|          1 | Wioska Kanibali    | A             |             1 |
+|          2 | Zabojcza skala     | B             |             1 |
+|          3 | Magiczna jaskinia  | C             |             1 |
+|          4 | Pieprzne pole      | A             |             2 |
+|          5 | Wulkan             | B             |             2 |
+|          6 | Pieczara tesciowej | C             |             2 |
+|          7 | Chatka dziadka     | A             |             3 |
+|          8 | Kokosowa plaza     | B             |             3 |
+|          9 | Zatoka rekinow     | C             |             3 |
++------------+--------------------+---------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> create table uczestnicy select * from wikingowie.uczestnicy;
+ERROR 1142 (42000): INSERT, CREATE command denied to user 'kruszewskim'@'localhost' for table 'uczestnicy'
+mysql> use kreatura;
+ERROR 1044 (42000): Access denied for user 'kruszewskim'@'localhost' to database 'kreatura'
+mysql> use wikingowie;
+Database changed
+mysql> use kruszewskim;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table uczestnicy select * from wikingowie.uczestnicy;
+Query OK, 18 rows affected (0.11 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> create table etapy_wyprawy select * from wikingowie.etapy_wyprawy;
+Query OK, 15 rows affected (0.07 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> create table sektor select * from wikingowie.sektor;
+Query OK, 9 rows affected (0.07 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> create table sektor wyprawa * from wikingowie.wyprawa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wyprawa * from wikingowie.wyprawa' at line 1
+mysql> create table wyprawa * from wikingowie.wyprawa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from wikingowie.wyprawa' at line 1
+mysql> create table wyprawa select * from wikingowie.wyprawa;
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select kreatura.nazwa from kreatura where idKreatury not in(select id_uczestnika from uczestnicy where id_uczestnika group by id_uczestnika);
++----------+
+| nazwa    |
++----------+
+| Brutal   |
+| Defgard  |
+| Ara      |
+| Gollum   |
+| Babajaga |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> select wyprawa.nazwa,sum(ilosc) as ilosc_ekwipunku from uczestnicy join wyprawa on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join ekwipunek on ekwipunek.idKreatury=uczestnicy.id_uczestnika group by wyprawa.id_wyprawy;
++-----------------------+-----------------+
+| nazwa                 | ilosc_ekwipunku |
++-----------------------+-----------------+
+| Nakarm kanibala       |              84 |
+| Polowanie na tesciowa |              68 |
+| Poszukiwanie ziecia   |               5 |
++-----------------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow", group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
+mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow",group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
+mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow",group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy onwyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
+mysql> select wyprawa.nazwa as "nazwa_wyprawy", count(id_uczestnika) as "liczba_uczestnikow",group concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on
+kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy ' at line 1
+mysql> select wyprawa.nazwa as "nazwa_wyprawy", count(id_uczestnika) as "liczba_uczestnikow",group_concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on
+kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
++-----------------------+--------------------+----------------------------------------------------------------+
+| nazwa_wyprawy         | liczba_uczestnikow | nazwa_uczestnika                                               |
++-----------------------+--------------------+----------------------------------------------------------------+
+| Nakarm kanibala       |                  6 | Bjorn,Khorad,Astrid,Dziadek,Bjolkolur,Drozd                    |
+| Polowanie na tesciowa |                  7 | Bjorn,Dziadek,Szczeki,Drozd,Loko,Ibra,Birgun                   |
+| Poszukiwanie ziecia   |                  5 | Nemo,Tesciowa,Tiki,sztuczna szczeka tesciowej,Tesciowa dziadka |
++-----------------------+--------------------+----------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",wyprawa,kierownik from wyprawa join etapy_wyprawy on wyprawa.id_wyprawy=etapy_wyprawy.idWyprawy join sektor on sektor.id_sektora=etapy_wyprawy.sektor order by (wyprawa.data_rozpoczecia and etapy_wyprawy.kolejnosc);
+ERROR 1054 (42S22): Unknown column 'wyprawa' in 'field list'
+mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",kierownik from wyprawa join etapy_wyprawy on wyprawa.id_wyprawy=etapy_wyprawy.idWyprawy join sektor on sektor.id_sektora=etapy_wyprawy.sektor order by (wyprawa.data_rozpoczecia and etapy_wyprawy.kolejnosc);
++---------+--------------------+-----------+
+| idEtapu | nazwa sektora      | kierownik |
++---------+--------------------+-----------+
+|      15 | Wioska Kanibali    |        16 |
+|       3 | Wioska Kanibali    |        14 |
+|       4 | Pieprzne pole      |        14 |
+|      14 | Wulkan             |        16 |
+|       8 | Wulkan             |         1 |
+|       2 | Wulkan             |        14 |
+|      12 | Pieczara tesciowej |        16 |
+|      10 | Pieczara tesciowej |         1 |
+|       1 | Pieczara tesciowej |        14 |
+|      11 | Chatka dziadka     |        16 |
+|       7 | Chatka dziadka     |         1 |
+|       5 | Chatka dziadka     |        14 |
+|       6 | Kokosowa plaza     |         1 |
+|      13 | Zatoka rekinow     |        16 |
+|       9 | Zatoka rekinow     |         1 |
++---------+--------------------+-----------+
+15 rows in set (0.00 sec)
+
+mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor left join(select etapy_wyprawy.sektor from etapy_wyprawy group by sektor) sub on sektor.id_sektora=sub.sektor group by sektor sektor.id_sektora;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sektor.id_sektora' at line 1
+mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor left join(select etapy_wyprawy.sektor from etapy_wyprawy group by sektor) sub on sektor.id_sektora=sub.sektor group by sektor.id_sektora;
++--------------------+-----------------+
+| nazwa              | ilosc_odwiedzin |
++--------------------+-----------------+
+| Wioska Kanibali    |               1 |
+| Zabojcza skala     |               0 |
+| Magiczna jaskinia  |               0 |
+| Pieprzne pole      |               1 |
+| Wulkan             |               1 |
+| Pieczara tesciowej |               1 |
+| Chatka dziadka     |               1 |
+| Kokosowa plaza     |               1 |
+| Zatoka rekinow     |               1 |
++--------------------+-----------------+
+9 rows in set (0.00 sec)
+
+mysql> select kreatura.nazwa,if(count(uczestnicy.id_uczestnika)>0,'bral udzial w wyprawie','nie bral udzialu w wyprawie') from kreatura left join uczestnicy on kreatura.idKreatury=uczestnicy.id_uczestnika group by kreatura.idKreatury;
++----------------------------+----------------------------------------------------------------------------------------------+
+| nazwa                      | if(count(uczestnicy.id_uczestnika)>0,'bral udzial w wyprawie','nie bral udzialu w wyprawie') |
++----------------------------+----------------------------------------------------------------------------------------------+
+| Bjorn                      | bral udzial w wyprawie                                                                       |
+| Brutal                     | nie bral udzialu w wyprawie                                                                  |
+| Khorad                     | bral udzial w wyprawie                                                                       |
+| Birgun                     | bral udzial w wyprawie                                                                       |
+| Defgard                    | nie bral udzialu w wyprawie                                                                  |
+| Astrid                     | bral udzial w wyprawie                                                                       |
+| Ibra                       | bral udzial w wyprawie                                                                       |
+| Bjolkolur                  | bral udzial w wyprawie                                                                       |
+| Nemo                       | bral udzial w wyprawie                                                                       |
+| Loko                       | bral udzial w wyprawie                                                                       |
+| Drozd                      | bral udzial w wyprawie                                                                       |
+| Ara                        | nie bral udzialu w wyprawie                                                                  |
+| Szczeki                    | bral udzial w wyprawie                                                                       |
+| Tesciowa                   | bral udzial w wyprawie                                                                       |
+| Tiki                       | bral udzial w wyprawie                                                                       |
+| Dziadek                    | bral udzial w wyprawie                                                                       |
+| sztuczna szczeka tesciowej | bral udzial w wyprawie                                                                       |
+| Tesciowa dziadka           | bral udzial w wyprawie                                                                       |
+| Gollum                     | nie bral udzialu w wyprawie                                                                  |
+| Babajaga                   | nie bral udzialu w wyprawie                                                                  |
++----------------------------+----------------------------------------------------------------------------------------------+
+20 rows in set (0.00 sec)
+
+mysql>
