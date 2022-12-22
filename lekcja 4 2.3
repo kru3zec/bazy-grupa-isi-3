@@ -1,10 +1,3 @@
-
-    ->
-    -> select * from zasob;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql>
-
-
-select * from zasob' at line 1
 mysql>  select * from zasob;
 +----------+-------------------+--------+-------+----------------+--------------------+
 | idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
@@ -40,16 +33,6 @@ mysql>  select * from zasob;
 +----------+-------------------+--------+-------+----------------+--------------------+
 28 rows in set (0.00 sec)
 
-mysql> select distinct nazwa;
-ERROR 1054 (42S22): Unknown column 'nazwa' in 'field list'
-mysql> select
-    ->
-    ->
-    ->
-    ->
-    ->
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
 mysql> select count(rodzaj) from zasob group by rodzaj;
 +---------------+
 | count(rodzaj) |
@@ -64,8 +47,6 @@ mysql> select count(rodzaj) from zasob group by rodzaj;
 +---------------+
 7 rows in set (0.00 sec)
 
-mysql> select rodzja, count(rodzaj) from zasob group by rodzaj;
-ERROR 1054 (42S22): Unknown column 'rodzja' in 'field list'
 mysql> select rodzaj, count(rodzaj) from zasob group by rodzaj;
 +--------------------+---------------+
 | rodzaj             | count(rodzaj) |
@@ -143,8 +124,6 @@ mysql> select ilosc, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj h
 +-------+-------------+
 2 rows in set (0.00 sec)
 
-mysql> select nazwa, count(ilosc,rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',rodzaj) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1' at line 1
 mysql> select nazwa, count(ilosc) as "rozne nazwy"  from zasob group by rodzaj having min(ilosc)>1;
 +--------+-------------+
 | nazwa  | rozne nazwy |
