@@ -64,9 +64,6 @@ mysql> INSERT INTO postacie (nazwa,rodzaj,data_ur,wiek)
     -> ;
 Query OK, 1 row affected (0.00 sec)
 
-mysql> DESC POSTACIE
-    -> ;
-ERROR 1146 (42S02): Table 'kruszewskim.POSTACIE' doesn't exist
 mysql> DESC postacie;
 +------------+---------------------------------+------+-----+---------+----------------+
 | Field      | Type                            | Null | Key | Default | Extra          |
