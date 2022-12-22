@@ -63,8 +63,6 @@ mysql> select * from zasob;
 +----------+-------------------+--------+-------+----------------+--------------                                     ------+
 28 rows in set (0.00 sec)
 
-mysql> mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum(waga*ilosc) > 10;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum' at line 1
 mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by nazwa, ilosc having sum(waga*ilosc) > 10;
 +---------------+--------------+
 | nazwa         | srednia waga |
@@ -98,8 +96,6 @@ mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 gro
 +---------------+--------------+
 9 rows in set (0.01 sec)
 
-mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by asc waga, ilosc having sum(waga*ilosc) > 10;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc waga, ilosc having sum(waga*ilosc) > 10' at line 1
 mysql> select nazwa, avg(waga*ilosc) as "srednia waga" from zasob where ilosc >= 4 group by ilosc, ilosc having sum(waga*ilosc) > 10;
 +---------------+--------------+
 | nazwa         | srednia waga |
@@ -129,8 +125,6 @@ sum(waga*ilosc) > 10;
 +---------------+-----------------+
 7 rows in set (0.00 sec)
 
-mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 group by asc waga, ilosc having sum(waga*ilosc) > 10;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc waga, ilosc having sum(waga*ilosc) > 10' at line 1
 mysql> select nazwa, avg(waga*ilosc)/waga as "srednia waga" from zasob where ilosc >= 4 group by ilosc, ilosc having
 sum(waga*ilosc) > 10;
 +---------------+-----------------+
@@ -162,11 +156,6 @@ mysql> select nazwa, avg(waga) as "srednia waga" from zasob where ilosc >= 4 gro
 +---------------+--------------+
 9 rows in set (0.00 sec)
 
-mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa,waga ilosc ha
-ving sum(waga*ilosc) > 10;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ilosc having sum(waga*ilosc) > 10' at line 1
-mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa ilosc having sum(waga*ilosc) > 10;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ilosc having sum(waga*ilosc) > 10' at line 1
 mysql> select nazwa, avg(waga*ilosc)/ilosc as "srednia waga" from zasob where ilosc >= 4 group by nazwa having sum(waga*ilosc) > 10;
 +---------------+---------------+
 | nazwa         | srednia waga  |
