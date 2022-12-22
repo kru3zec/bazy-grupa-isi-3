@@ -28,10 +28,7 @@ Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
 
 Database changed
-mysql> CREATE TABLE kreatura AS SELECT 'kreatura' from 'wikingowie';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that                                      corresponds to your MySQL server version for the right syntax to use near ''wiki                                     ngowie'' at line 1
-mysql> CREATE TABLE kreatura AS SELECT 'kreatura' FROM 'wikingowie';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that                                      corresponds to your MySQL server version for the right syntax to use near ''wiki                                     ngowie'' at line 1
+
 mysql> CREATE TABLE kreatura AS SELECT * FROM wikingowie.kreatura;
 Query OK, 20 rows affected (0.15 sec)
 Records: 20  Duplicates: 0  Warnings: 0
@@ -153,8 +150,7 @@ mysql> SELECT idZasobu,ilosc from zasob;
 +----------+-------+
 28 rows in set (0.00 sec)
 
-mysql> SELECT idZasobu,ilosc from zasob WHERE idZasobu = '1','3','5';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','3','5'' at line 1
+
 mysql> SELECT idZasobu,ilosc from zasob WHERE idZasobu = '1,3,5';
 +----------+-------+
 | idZasobu | ilosc |
