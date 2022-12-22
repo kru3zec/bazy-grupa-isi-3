@@ -143,10 +143,6 @@ mysql> select * from sektor;
 +------------+--------------------+---------------+---------------+
 9 rows in set (0.00 sec)
 
-mysql> create table uczestnicy select * from wikingowie.uczestnicy;
-ERROR 1142 (42000): INSERT, CREATE command denied to user 'kruszewskim'@'localhost' for table 'uczestnicy'
-mysql> use kreatura;
-ERROR 1044 (42000): Access denied for user 'kruszewskim'@'localhost' to database 'kreatura'
 mysql> use wikingowie;
 Database changed
 mysql> use kruszewskim;
@@ -166,10 +162,7 @@ mysql> create table sektor select * from wikingowie.sektor;
 Query OK, 9 rows affected (0.07 sec)
 Records: 9  Duplicates: 0  Warnings: 0
 
-mysql> create table sektor wyprawa * from wikingowie.wyprawa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wyprawa * from wikingowie.wyprawa' at line 1
-mysql> create table wyprawa * from wikingowie.wyprawa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from wikingowie.wyprawa' at line 1
+
 mysql> create table wyprawa select * from wikingowie.wyprawa;
 Query OK, 4 rows affected (0.05 sec)
 Records: 4  Duplicates: 0  Warnings: 0
@@ -196,15 +189,7 @@ mysql> select wyprawa.nazwa,sum(ilosc) as ilosc_ekwipunku from uczestnicy join w
 +-----------------------+-----------------+
 3 rows in set (0.00 sec)
 
-mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow", group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
-mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow",group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
-mysql> select wyprawa.nazwa as "nazwa wyprawy", count(id_uczestnika) as "liczba uczestnikow",group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy onwyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa uczestnika" from wyprawa join uczestnicy ' at line 1
-mysql> select wyprawa.nazwa as "nazwa_wyprawy", count(id_uczestnika) as "liczba_uczestnikow",group concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on
-kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy ' at line 1
+
 mysql> select wyprawa.nazwa as "nazwa_wyprawy", count(id_uczestnika) as "liczba_uczestnikow",group_concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on
 kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
 +-----------------------+--------------------+----------------------------------------------------------------+
@@ -216,8 +201,6 @@ kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
 +-----------------------+--------------------+----------------------------------------------------------------+
 3 rows in set (0.00 sec)
 
-mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",wyprawa,kierownik from wyprawa join etapy_wyprawy on wyprawa.id_wyprawy=etapy_wyprawy.idWyprawy join sektor on sektor.id_sektora=etapy_wyprawy.sektor order by (wyprawa.data_rozpoczecia and etapy_wyprawy.kolejnosc);
-ERROR 1054 (42S22): Unknown column 'wyprawa' in 'field list'
 mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",kierownik from wyprawa join etapy_wyprawy on wyprawa.id_wyprawy=etapy_wyprawy.idWyprawy join sektor on sektor.id_sektora=etapy_wyprawy.sektor order by (wyprawa.data_rozpoczecia and etapy_wyprawy.kolejnosc);
 +---------+--------------------+-----------+
 | idEtapu | nazwa sektora      | kierownik |
@@ -240,8 +223,6 @@ mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",kierownik fr
 +---------+--------------------+-----------+
 15 rows in set (0.00 sec)
 
-mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor left join(select etapy_wyprawy.sektor from etapy_wyprawy group by sektor) sub on sektor.id_sektora=sub.sektor group by sektor sektor.id_sektora;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sektor.id_sektora' at line 1
 mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor left join(select etapy_wyprawy.sektor from etapy_wyprawy group by sektor) sub on sektor.id_sektora=sub.sektor group by sektor.id_sektora;
 +--------------------+-----------------+
 | nazwa              | ilosc_odwiedzin |
