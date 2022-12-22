@@ -55,8 +55,7 @@ Query OK, 1 row affected (0.00 sec)
 mysql> DELETE FROM postacie WHERE id_postaci = 8;
 Query OK, 1 row affected (0.00 sec)
 
-mysql> desc * postacie;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* postacie' at line 1
+
 mysql> desc postacie;
 +----------------+---------------------------------+------+-----+---------+----------------+
 | Field          | Type                            | Null | Key | Default | Extra          |
@@ -71,54 +70,10 @@ mysql> desc postacie;
 +----------------+---------------------------------+------+-----+---------+----------------+
 7 rows in set (0.01 sec)
 
-mysql> tje drop primary key;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tje drop primary key' at line 1
-mysql> DROP INDEX id_postaci ON postacie;
-ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
-mysql> ALTER TABLE postacie DROP CONSTRAINT id_postaci;
-ERROR 3940 (HY000): Constraint 'id_postaci' does not exist.
-mysql> ALTER TABLE postacie DROP KEY id_postaci;
-ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
-mysql> ALTER TABLE postacie DROP PRIMARY KEY;
-ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
-mysql> ALTER TABLE postacie DROP PRIMARY KEY id_postaci;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
+
 mysql> SET foreign_key_checks = 0;
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> SET primary_key_checks = 0;
-ERROR 1193 (HY000): Unknown system variable 'primary_key_checks'
-mysql> ALTER TABLE postacie DROP PRIMARY KEY id_postaci;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
-mysql> ALTER TABLE postacie DROP PRIMARY KEY;
-ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
-mysql> ALTER TABLE postacie DROP FOREIGN KEY;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
-mysql> ALTER TABLE postacie DROP PRIMARY KEY(id_postaci);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id_postaci)' at line 1
-mysql> ALTER TABLE postacie DROP PRIMARY KEY;
-ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
-mysql> ALTER TABLE postacie DROP FOREIGN KEY(statek_postaci):
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci):' at line 1
-mysql> ALTER TABLE postacie DROP FOREIGN KEY(statek_postaci);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci)' at line 1
-mysql> ALTER TABLE postacie DROP FOREIGN KEY;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
-mysql> ALTER TABLE postacie DROP FOREIGN KEY (statek_postaci);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci)' at line 1
-mysql> ALTER TABLE postacie DROP FOREIGN KEY fk_statek_postaci;
-ERROR 1091 (42000): Can't DROP 'fk_statek_postaci'; check that column/key exists
-mysql> ALTER TABLE postacie DROP FOREIGN KEY statek_postaci;
-ERROR 1091 (42000): Can't DROP 'statek_postaci'; check that column/key exists
-mysql> ALTER TABLE postacie DROP FOREIGN KEY (statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(statek_postaci) REFERENCES statek(nazwa_statku)' at line 1
-mysql> alter table postacie drop foreign key statek_postaci_ibfk_1;
-ERROR 1091 (42000): Can't DROP 'statek_postaci_ibfk_1'; check that column/key exists
-mysql> alter table postacie drop foreign key statek_postaci_ibfk;
-ERROR 1091 (42000): Can't DROP 'statek_postaci_ibfk'; check that column/key exists
-mysql> alter table postacie drop foreign key statek_postaci;
-ERROR 1091 (42000): Can't DROP 'statek_postaci'; check that column/key exists
 mysql> desc postacie;
 +----------------+---------------------------------+------+-----+---------+----------------+
 | Field          | Type                            | Null | Key | Default | Extra          |
@@ -132,16 +87,6 @@ mysql> desc postacie;
 | wiek           | int unsigned                    | YES  |     | NULL    |                |
 +----------------+---------------------------------+------+-----+---------+----------------+
 7 rows in set (0.00 sec)
-
-mysql> alter table postacie drop key statek_postaci;
-ERROR 1553 (HY000): Cannot drop index 'statek_postaci': needed in a foreign key constraint
-mysql> alter table postacie drop key id_postaci;
-ERROR 1091 (42000): Can't DROP 'id_postaci'; check that column/key exists
-mysql> alter table postacie drop primary key id_postaci;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_postaci' at line 1
-mysql> alter table postacie drop primary key;
-ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
-mysql> SELECT
     ->     CONSTRAINT_NAME
     -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
     -> WHERE REFERENCED_TABLE_NAME = 'postacie';
@@ -154,14 +99,6 @@ mysql> SELECT
 +------------------+
 3 rows in set (0.11 sec)
 
-mysql> ALTER TABLE postacie DROP FOREIGN KEY {walizka_ibfk_1/Key_name};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/Key_name}' at line 1
-mysql> ALTER TABLE postacie DROP FOREIGN KEY {walizka_ibfk_1/id_postaci};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
-mysql> ALTER TABLE postacie DROP CONSTRAINT {walizka_ibfk_1};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1}' at line 1
-mysql> ALTER TABLE postacie DROP CONSTRAINT {walizka_ibfk_1/id_postaci};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
 mysql> SELECT
     ->     TABLE_NAME,
     ->     COLUMN_NAME,
@@ -179,10 +116,6 @@ mysql> SELECT
 +------------+----------------+------------------+-----------------------+------------------------+
 3 rows in set (0.10 sec)
 
-mysql> ALTER TABLE walizka DROP CONSTRAINT {walizka_ibfk_1/id_postaci};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1/id_postaci}' at line 1
-mysql> ALTER TABLE walizka DROP CONSTRAINT {walizka_ibfk_1};
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{walizka_ibfk_1}' at line 1
 mysql> SELECT
     ->     CONSTRAINT_NAME
     -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
@@ -202,9 +135,3 @@ mysql> desc walizka;
 | id_wlasciciela | int                                         | YES  | MUL | NULL    |                |
 +----------------+---------------------------------------------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
-
-mysql> ALTER TABLE walizka DROP FOREIGN KEY id_walizki;
-ERROR 1091 (42000): Can't DROP 'id_walizki'; check that column/key exists
-mysql> ALTER TABLE walizka DROP PRIMARY KEY(id_walizki);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id_walizki)' at line 1
-mysql>
