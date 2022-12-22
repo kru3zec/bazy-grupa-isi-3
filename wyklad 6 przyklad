@@ -45,8 +45,6 @@ mysql> select * from systemy
 +------------+-----------------------------+------------+--------------+--------------+
 10 rows in set (0.00 sec)
 
-mysql> select * from systemy WHERE kanal_wersji = release;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'release' at line 1
 mysql> select * from systemy WHERE kanal_wersji = "release";
 +------------+-----------------------------+------------+--------------+--------------+
 | id_systemu | nazwa                       | kompilacja | kanal_wersji | data_wydania |
@@ -91,8 +89,7 @@ mysql> select * from systemy WHERE data_wydania>"1990-01-01";
 +------------+-----------------------------+------------+--------------+--------------+
 6 rows in set (0.00 sec)
 
-mysql> select nazwa,data_wydania * from systemy;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from systemy' at line 1
+
 mysql> select nazwa,data_wydania from systemy;
 +-----------------------------+--------------+
 | nazwa                       | data_wydania |
@@ -141,10 +138,7 @@ mysql> +-----------------------------+--------------+
     -> | Windows_for_Workgroups_3.11 | 1993-10-21   |
     -> | Windows_NT_3.1              | 1994-10-05   |
     -> | Windows_NT_3.51             | 1996-09-20   |
-    -> +-----------------------------+--------------+
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+-----------------------------+--------------+
-| nazwa                       | d' at line 1
+    -> +-----------------------------+----------
 mysql> select nazwa,data_wydania from systemy;
 +-----------------------------+--------------+
 | nazwa                       | data_wydania |
