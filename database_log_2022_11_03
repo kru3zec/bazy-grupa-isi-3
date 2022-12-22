@@ -27,13 +27,6 @@ mysql> use kruszewskim
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
 
-Database changed
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,id_wlasciciela INT, FOREGIN KEY (id_wlasciciela) REFERENCES postac(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (id_wlasciciela) REFERENCES postac(id_postaci),PRIMARY KEY(adres_budynku,naz' at line 1
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,id_wlasciciela INT, FOREGIN KEY (id_wlasciciela) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (id_wlasciciela) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,n' at line 1
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,id_wlasciciela INT, FOREGIN KEY (id_wlasciciela) REFERENCES postacie(id_postacie),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (id_wlasciciela) REFERENCES postacie(id_postacie),PRIMARY KEY(adres_budynku,' at line 1
 mysql> select * from postacie
     -> ;
 +------------+----------+---------+------------+------+
@@ -45,25 +38,10 @@ mysql> select * from postacie
 +------------+----------+---------+------------+------+
 3 rows in set (0.00 sec)
 
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,id_wlasciciela INT, FOREGIN KEY (id_wlasciciela) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (id_wlasciciela) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,n' at line 1
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT, FOREGIN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa' at line 1
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREGIN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa' at line 1
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1072 (42000): Key column 'adres_budynku' doesn't exist in table
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1072 (42000): Key column 'adres_budynku' doesn't exist in table
 mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
 KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(nazwa_izby));
 Query OK, 0 rows affected (0.04 sec)
 
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1050 (42S01): Table 'izba' already exists
 mysql> select * from izba
     -> ;
 Empty set (0.00 sec)
@@ -82,19 +60,11 @@ mysql> DESC izba;
 mysql> drop table izba;
 Query OK, 0 rows affected (0.01 sec)
 
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1072 (42000): Key column 'adres_budynku' doesn't exist in table
-mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1072 (42000): Key column 'adres_budynku' doesn't exist in table
+
 mysql> CREATE TABLE izba(adres_budnyku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
 KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(nazwa_izby));
 Query OK, 0 rows affected (0.03 sec)
 
-mysql> ALTER TABLE izba(adres_budynku PRIMARY KEY)
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(adres_budynku PRIMARY KEY)' at line 1
 mysql> DROP TABLE izba
     -> ;
 Query OK, 0 rows affected (0.02 sec)
@@ -107,8 +77,6 @@ mysql> DROP TABLE izba
     -> ;
 Query OK, 0 rows affected (0.02 sec)
 
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT SET NULLON DELETE,FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET NULLON DELETE,FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMA' at line 1
 mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
 Query OK, 0 rows affected (0.03 sec)
 
@@ -116,22 +84,6 @@ mysql> drop table izba
     -> ;
 Query OK, 0 rows affected (0.01 sec)
 
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby))
-    -> ON DELETE SET;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DELETE SET' at line 2
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby))ON DELETE SET NULL;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DELETE SET NULL' at line 1
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby)ON DELETE SET NULL);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DELETE SET NULL)' at line 1
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
-KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby))ON DELETE SET NULL;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON DELETE SET NULL' at line 1
-mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT ON DELETE SET NULL ,FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby))
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELETE SET NULL ,FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMAR' at line 1
 mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
 KEY (wlasciciel) REFERENCES postacie(id_postaci),PRIMARY KEY(adres_budynku,nazwa_izby));
 Query OK, 0 rows affected (0.04 sec)
@@ -155,23 +107,10 @@ mysql> desc izba;
 +---------------+--------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
-mysql> ALTER TABLE ADD COLUMN kolor izby VARCHAR(40)(AFTER metraz);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ADD COLUMN kolor izby VARCHAR(40)(AFTER metraz)' at line 1
-mysql> ALTER TABLE izba  ADD COLUMN kolor izby VARCHAR(40)(AFTER metraz);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'izby VARCHAR(40)(AFTER metraz)' at line 1
-mysql> ALTER TABLE izba ADD COLUMN kolor izby VARCHAR(40)(AFTER metraz);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'izby VARCHAR(40)(AFTER metraz)' at line 1
-mysql> ALTER TABLE izba ADD COLUMN kolor izby VARCHAR(40) AFTER metraz;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'izby VARCHAR(40) AFTER metraz' at line 1
-mysql> ALTER TABLE izba ADD COLUMN kolor izby VARCHAR(20) AFTER metraz;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'izby VARCHAR(20) AFTER metraz' at line 1
 mysql> ALTER TABLE izba ADD COLUMN kolor_izby VARCHAR(20) AFTER metraz;
 Query OK, 0 rows affected (0.04 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> select from * izba
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from * izba' at line 1
 mysql> select * from izba
     -> ;
 Empty set (0.01 sec)
@@ -214,21 +153,6 @@ mysql> select * from izba
 +---------------+------------+--------+------------+------------+
 1 row in set (0.00 sec)
 
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT, FOREIGIN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta) REFERENCES postac(id_postaci));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek ' at line 1
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGIN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta) REFERENCES postac(id_postaci));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek ' at line 1
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGIN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta) REFERENCES postac(id_postaci));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek ' at line 1
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta) REFERENCES postac(id_postaci));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') REFERENCES postac(id_postaci))' at line 1
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta REFERENCES postac(id_postaci));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCES postac(id_postaci))' at line 1
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),FOREIGN KEY(id_konsumenta) REFERENCES postac(id_postaci));
-ERROR 1072 (42000): Key column 'id_konsumenta' doesn't exist in table
-mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta INT ,FOREIGN KEY(id_konsu
-menta) REFERENCES postac(id_postaci));
-ERROR 1824 (HY000): Failed to open the referenced table 'postac'
 mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta INT ,FOREIGN KEY(id_konsumenta) REFERENCES postacie(id_postaci));
 Query OK, 0 rows affected (0.04 sec)
 
@@ -236,9 +160,6 @@ mysql> select * from przetwory
     -> ;
 Empty set (0.00 sec)
 
-mysql> desc przetwory:
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':' at line 1
 mysql> desc przetwory;
 +---------------+-------------+------+-----+---------+-------+
 | Field         | Type        | Null | Key | Default | Extra |
@@ -252,12 +173,6 @@ mysql> desc przetwory;
 +---------------+-------------+------+-----+---------+-------+
 6 rows in set (0.01 sec)
 
-mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT '1654';
-ERROR 1067 (42000): Invalid default value for 'rok_produkcji'
-mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT '1654';
-ERROR 1067 (42000): Invalid default value for 'rok_produkcji'
-mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT'1654';
-ERROR 1067 (42000): Invalid default value for 'rok_produkcji'
 mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT '1954';
 Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -292,9 +207,6 @@ mysql> desc przetwory;
 +---------------+-------------+------+-----+------------------+-------+
 6 rows in set (0.00 sec)
 
-mysql> INSERT INTO przetwory (id_przetory,zawartosc)
-    -> VALUES ('1','bigos');
-ERROR 1054 (42S22): Unknown column 'id_przetory' in 'field list'
 mysql> INSERT INTO przetwory (id_przetwory,zawartosc) VALUES ('1','bigos');
 Query OK, 1 row affected (0.01 sec)
 
@@ -306,9 +218,6 @@ mysql> select * from przetwory;
 +--------------+---------------+--------------+-----------+------------------+---------------+
 1 row in set (0.00 sec)
 
-mysql> select from * postacie
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from * postacie' at line 1
 mysql> select * from postacie;
 +------------+----------+---------+------------+------+
 | id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
@@ -334,11 +243,6 @@ mysql> select * from postacie;
 +------------+----------+---------+------------+------+
 4 rows in set (0.00 sec)
 
-mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('4','Prozd','wiking','1785-12-17','67');
-ERROR 1062 (23000): Duplicate entry '4' for key 'postacie.PRIMARY'
-mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('4','Prozd','wiking','1785-12-17','67')
-    -> VALUES ('5','Gast','wiking','1786-10-02','68');
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('5','Gast','wiking','1786-10-02','68')' at line 2
 mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
     -> VALUES ('5','Gast','wiking','1786-10-02','68');
 Query OK, 1 row affected (0.00 sec)
@@ -347,8 +251,6 @@ mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
     -> VALUES ('6','Hal','wiking','1790-04-25','71');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> VALUES ('7','Kurn','wiking','1784-06-12','66');
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '('7','Kurn','wiking','1784-06-12','66')' at line 1
 mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
     -> VALUES ('7','Kurn','wiking','1784-06-12','66');
 Query OK, 1 row affected (0.00 sec)
@@ -387,17 +289,8 @@ mysql> desc statek;
 +----------------+-----------------------------------------------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
-mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc)
-    -> VALUES ('abc','handlowe','1769-04-12','1600_kg');
-ERROR 1366 (HY000): Incorrect integer value: 'abc' for column 'nazwa_statku' at row 1
-mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('Kuracyja','handlowe','1769-04-12','1600_kg');
-ERROR 1366 (HY000): Incorrect integer value: 'Kuracyja' for column 'nazwa_statku' at row 1
-mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('1','handlowe','1769-04-12','1600_kg');
-ERROR 1265 (01000): Data truncated for column 'max_ladownosc' at row 1
 mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('1','handlowe','1769-04-12','1600');
 Query OK, 1 row affected (0.00 sec)
 
 mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('2','sportowe','1789-03-13','1000');
 Query OK, 1 row affected (0.00 sec)
-
-mysql>
