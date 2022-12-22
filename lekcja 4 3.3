@@ -1,8 +1,3 @@
-
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server veion for the right syntax to use near '+--------------------+-------------+
-| rodzaj             | rozne nazwy |
-+-----' at line 1
 mysql> select * from ekwipunek;
 +-------------+------------+----------+-------+
 | idEkwipunku | idKreatury | idZasobu | ilosc |
@@ -268,8 +263,6 @@ mysql> select nazwa from kreatura group by nazwa;
 +----------------------------+
 20 rows in set (0.00 sec)
 
-mysql> select kreatura.nazwa as "kreatura" from kreatura left join ekwipunek.idKreatury = kreatura.idKreatury group by kreatura.nazwa;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= kreatura.idKreatury group by kreatura.nazwa' at line 1
 mysql> select kreatura.nazwa as "kreatura" from kreatura left join ekwipunek on ekwipunek.idKreatury = kreatura.idK
 reatury group by kreatura.nazwa;
 +----------------------------+
