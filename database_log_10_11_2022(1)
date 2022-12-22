@@ -1,36 +1,3 @@
-login as: kruszewskim
-kruszewskim@213.184.8.36's password:
-Access denied
-kruszewskim@213.184.8.36's password:
-Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Thu Nov  3 12:53:33 2022 from 213.184.8.151
-kruszewskim@bad2:~$ mysql -u kruszewskim -p
-Enter password:
-ERROR 1045 (28000): Access denied for user 'kruszewskim'@'localhost' (using pass                                     word: YES)
-kruszewskim@bad2:~$ mysql -u kruszewskim -p
-Enter password:
-ERROR 1045 (28000): Access denied for user 'kruszewskim'@'localhost' (using pass                                     word: YES)
-kruszewskim@bad2:~$ mysql -u kruszewskim -p
-Enter password:
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 4616
-Server version: 8.0.22 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
 mysql> use kruszewskim
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
@@ -102,16 +69,6 @@ mysql> select * from postacie;
 +------------+----------+---------+---------+------------+------+
 8 rows in set (0.00 sec)
 
-mysql> INSERT INTO postacie(funkcja) VALUES kapitan WHERE id = '1';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'kapitan WHERE id = '1'' at line 1
-mysql> INSERT INTO postacie(id_postaci,funkcja) VALUES ('1','kapitan');
-ERROR 1062 (23000): Duplicate entry '1' for key 'postacie.PRIMARY'
-mysql> ALTER TABLE postacie MODIFY NULL kapitan WHERE id_postaci = '1';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL kapitan WHERE id_postaci = '1'' at line 1
-mysql> ALTER TABLE postacie MODIFY NULL kapitan WHERE id_postaci = 1;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL kapitan WHERE id_postaci = 1' at line 1
-mysql> UPDATE postac SET funkcja = 'kapitan' WHERE id_postaci = 1;
-ERROR 1146 (42S02): Table 'kruszewskim.postac' doesn't exist
 mysql> UPDATE postacie SET funkcja = 'kapitan' WHERE id_postaci = 1;
 Query OK, 1 row affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
@@ -136,18 +93,6 @@ mysql> ALTER TABLE postacie ADD COLUMN nazwa_statku VARCHAR(40);
 Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(nazwa_statku) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'nazwa_statku' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(nazwa_statku) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'nazwa_statku' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(nazwa_statku);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(nazwa_statku) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'nazwa_statku' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(nazwa_statku) REFERENCES statek;
-ERROR 1239 (42000): Incorrect foreign key definition for 'foreign key without name': Key reference and table reference don't match
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(nazwa_statku) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'nazwa_statku' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
 mysql> ALTER TABLE postacie DROP COLUMN nazwa_statku;
 Query OK, 0 rows affected (0.14 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -167,12 +112,6 @@ mysql> select * from postacie;
 +------------+----------+---------+---------+------------+------+
 8 rows in set (0.00 sec)
 
-mysql> ALTER TABLE postacie ADD COLUMN statek AFTER funkcja;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AFTER funkcja' at line 1
-mysql> ALTER TABLE postacie ADD COLUMN statek AFTER COLUMN funkcja;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AFTER COLUMN funkcja' at line 1
-mysql> ALTER TABLE postacie ADD COLUMN statek;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
 mysql> ALTER TABLE postacie ADD COLUMN statek VARCHAR(40) AFTER funkcja;
 Query OK, 0 rows affected (0.08 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -192,42 +131,16 @@ mysql> select * from postacie;
 +------------+----------+---------+---------+--------+------------+------+
 8 rows in set (0.00 sec)
 
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statku) REFERENCES statek(nazwa_statku);
-ERROR 1072 (42000): Key column 'statku' doesn't exist in table
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'statek' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
 mysql> ALTER TABLE postacie DROP COLUMN statek;
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);
-ERROR 1072 (42000): Key column 'statek' doesn't exist in table
-mysql> ALTER TABLE postacie ADD COLUMN statek VARCHAR(40)ALTER TABLE postacie ADD COLUMN statek VARCHAR(40)  AFTER funkcja;  AFTER funkcja;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALTER TABLE postacie ADD COLUMN statek VARCHAR(40)  AFTER funkcja' at line 1
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AFTER funkcja' at line 1
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);ALTER TABLE postacie ADD COLUMN statek VARCHAR(40)  AFTER funkcja;
-ERROR 1072 (42000): Key column 'statek' doesn't exist in table
-Query OK, 0 rows affected (0.08 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);^C
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);^C
-ERROR 3780 (HY000): Referencing column 'statek' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '^C' at line 1
-mysql> ALTER TABLE postacie ADD COLUMN statek VARCHAR(40) AFTER funkcja;
-ERROR 1060 (42S21): Duplicate column name 'statek'
-mysql> ALTER TABLE postacie ADD COLUMN statek VARCHAR(40),FOREIGN KEY(statek) REFERENCES statek(nazwa_statku);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY(statek) REFERENCES statek(nazwa_statku)' at line 1
-mysql> FOREIGN KEY(statek)
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY(statek)' at line 1
 mysql> ALTER TABLE postacie DROP COLUMN stateK;
 Query OK, 0 rows affected (0.07 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE postacie DROP COLUMN stateK;
-ERROR 1091 (42000): Can't DROP 'stateK'; check that column/key exists
+
 mysql> select * from postacie;
 +------------+----------+---------+---------+------------+------+
 | id_postaci | nazwa    | rodzaj  | funkcja | data_ur    | wiek |
@@ -243,10 +156,6 @@ mysql> select * from postacie;
 +------------+----------+---------+---------+------------+------+
 8 rows in set (0.00 sec)
 
-mysql>
-mysql>
-mysql>
-mysql>
 mysql> ALTER TABLE postacie ADD COLUMN statek VARCHAR(40) AFTER funkcja;
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -259,12 +168,6 @@ mysql> ALTER TABLE postacie ADD COLUMN statek_postaci VARCHAR(40) AFTER funkcja;
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE postacie ADD FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'statek_postaci' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'statek_postaci' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
-mysql> ALTER TABLE statek ADD CONSTRAINT FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 1072 (42000): Key column 'statek_postaci' doesn't exist in table
 mysql> select * from postacie;
 +------------+----------+---------+---------+----------------+------------+------+
 | id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
@@ -305,10 +208,6 @@ mysql> desc statek;
 +----------------+-----------------------------------------------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
-mysql> ALTER TABLE statek ADD CONSTRAINT FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 1072 (42000): Key column 'statek_postaci' doesn't exist in table
-mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
-ERROR 3780 (HY000): Referencing column 'statek_postaci' and referenced column 'nazwa_statku' in foreign key constraint 'postacie_ibfk_1' are incompatible.
 mysql> ALTER TABLE statek CHANGE nazwa_statku nazwa_statku INT;
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -371,15 +270,6 @@ mysql> select * from statek;
 +--------------+---------------+----------------+---------------+
 2 rows in set (0.00 sec)
 
-mysql> INSERT INTO postacie(id_postaci,statek_postaci) VALUES ('1','sportowe');
-ERROR 1062 (23000): Duplicate entry '1' for key 'postacie.PRIMARY'
-mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 1;
-ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
-mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 1;
-ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
-mysql>  Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.`postacie`, CONSTRAINT `postacie_ibfk_1` FOREIGN KEY (`statek_postaci`) REFERENCES `statek` (`nazwa_statku`))
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Cannot add or update a child row: a foreign key constraint fails (`kruszewskim`.' at line 1
 mysql> SET FOREIGN_KEY_CHECKS=0;
 Query OK, 0 rows affected (0.00 sec)
 
@@ -449,13 +339,5 @@ mysql> select * from izba;
 +---------------+------------+--------+------------+------------+
 1 row in set (0.00 sec)
 
-mysql> ALTER COLUMN nazwa_izby DROP spizarnia;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COLUMN nazwa_izby DROP spizarnia' at line 1
-mysql> ALTER TABLE izba ALTER COLUMN nazwa_izby DROP spizarnia;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'spizarnia' at line 1
-mysql> ALTER TABLE izba DROP CONSTAINT spizarnia;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'spizarnia' at line 1
 mysql> DROP TABLE izba;
 Query OK, 0 rows affected (0.02 sec)
-
-mysql>
