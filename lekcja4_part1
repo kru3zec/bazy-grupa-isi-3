@@ -101,8 +101,6 @@ mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura group by rodzaj;
 +----------+---------------+-----------+
 7 rows in set (0.00 sec)
 
-mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura group by rodzaj where rodzaj = 'wiking';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where rodzaj = 'wiking'' at line 1
 mysql> select rodzaj,count(rodzaj),avg(waga) from kreatura where rodzaj = 'wiking';
 +--------+---------------+-----------+
 | rodzaj | count(rodzaj) | avg(waga) |
