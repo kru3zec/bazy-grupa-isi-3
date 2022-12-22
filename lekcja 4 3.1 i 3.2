@@ -1,9 +1,5 @@
 
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+--------------------+-------------+
-| rodzaj             | rozne nazwy |
-+-----' at line 1
-mysql> select * from ekwipunek;
+   mysql> select * from ekwipunek;
 +-------------+------------+----------+-------+
 | idEkwipunku | idKreatury | idZasobu | ilosc |
 +-------------+------------+----------+-------+
@@ -38,8 +34,6 @@ mysql> select * from ekwipunek;
 +-------------+------------+----------+-------+
 28 rows in set (0.00 sec)
 
-mysql> select nazwa,ilosc from ekwipunek;
-ERROR 1054 (42S22): Unknown column 'nazwa' in 'field list'
 mysql> select nazwa, sum(ilosc) from ekwipunek join kreatura on kreatura.idKreatury = ekwipunek.idKreatury group by nazwa;
 +-----------+------------+
 | nazwa     | sum(ilosc) |
