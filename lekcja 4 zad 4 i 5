@@ -131,8 +131,6 @@ mysql> select nazwa from kreatura;
 +----------------------------+
 20 rows in set (0.00 sec)
 
-mysql> select nazwa from kreatura where dataUr = '1670';
-ERROR 1525 (HY000): Incorrect DATE value: '1670'
 mysql> select nazwa from kreatura where dataUr = '1670-01-01'
     -> ;
 Empty set (0.01 sec)
@@ -197,37 +195,12 @@ mysql> select * from zasob;
 +----------+-------------------+--------+-------+----------------+--------------------+
 28 rows in set (0.00 sec)
 
-mysql> select nazwa from kreatura join nazwa on zasob  where dataUr between '1671-01-01' and '1680-12-31';
-ERROR 1146 (42S02): Table 'wikingowie.nazwa' doesn't exist
-mysql> select nazwa from kreatura join rodzaj on zasob  where dataUr between '1671-01-01' and '1680-12-31';
-ERROR 1146 (42S02): Table 'wikingowie.rodzaj' doesn't exist
-mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where dataUr between
- '1671-01-01' and '1680-12-31';
-ERROR 1054 (42S22): Unknown column 'nazwa.kreatura' in 'field list'
-mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatura == 'wiking' having year(dataUr) like '167%';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '== 'wiking' having year(dataUr) like '167%'' at line 1
-mysql> select nazwa.kreatura,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatura = 'wiking' having year(dataUr) like '167%';
-ERROR 1054 (42S22): Unknown column 'nazwa.kreatura' in 'field list'
-mysql> select kreatura.nazwa,nazwa.zasob from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatur
-a = 'wiking' having year(dataUr) like '167%';
-ERROR 1054 (42S22): Unknown column 'nazwa.zasob' in 'field list'
-mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where rodzaj.kreatur
-a = 'wiking' having year(dataUr) like '167%';
-ERROR 1054 (42S22): Unknown column 'rodzaj.kreatura' in 'where clause'
-mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having year(dataUr) like '167%';
-ERROR 1054 (42S22): Unknown column 'dataUr' in 'having clause'
-mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having year like '167%';
-ERROR 1054 (42S22): Unknown column 'year' in 'having clause'
-mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' having dataUr like '167%';
-ERROR 1054 (42S22): Unknown column 'dataUr' in 'having clause'
 mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%';
 Empty set (0.00 sec)
 
 mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
 Empty set (0.00 sec)
 
-mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek as  natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '16' at line 1
 mysql> select kreatura.nazwa,zasob.nazwa from kreatura natural join ekwipunek natural join zasob where kreatura.rodzaj = 'wiking' and year(dataUr) between '1670-01-01' and '1680-12-31';
 Empty set (0.00 sec)
 
@@ -297,9 +270,6 @@ mysql> select kreatura.nazwa,idZasobu from kreatura natural join ekwipunek natur
  'wiking' and year(dataUr) like '167%';
 Empty set (0.00 sec)
 
-mysql> select kreatura.nazwa,idZasobu from kreatura natural join ekwipunek,zasob where kreatura.rodzaj = 'wiking' and
- year(dataUr) like '167%';
-ERROR 1052 (23000): Column 'idZasobu' in field list is ambiguous
 mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%';
 +-----------+----------+---------------+
 | nazwa     | idZasobu | nazwa         |
@@ -328,10 +298,6 @@ mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natura
 +-----------+----------+---------------+
 21 rows in set (0.00 sec)
 
-mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by kreatura;
-ERROR 1054 (42S22): Unknown column 'kreatura' in 'group statement'
-mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by nazwa;
-ERROR 1052 (23000): Column 'nazwa' in group statement is ambiguous
 mysql> select kreatura.nazwa,ekwipunek.idZasobu,zasob.nazwa from kreatura natural join ekwipunek join zasob on ekwipunek.idZasobu = zasob.idZasobu where kreatura.rodzaj = 'wiking' and year(dataUr) like '167%' group by kreatura.nazwa;
 +-----------+----------+---------------+
 | nazwa     | idZasobu | nazwa         |
@@ -521,5 +487,3 @@ mysql> select kreatura.rodzaj, avg(zasob.waga) as waga from kreatura join ekwipu
 | ryba    | 12.000000 |
 +---------+-----------+
 4 rows in set (0.00 sec)
-
-mysql>
