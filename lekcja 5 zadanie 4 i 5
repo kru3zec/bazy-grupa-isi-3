@@ -1,0 +1,108 @@
+mysql> use wikingowie
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++------------------------+
+| Tables_in_wikingowie   |
++------------------------+
+| ekwipunek              |
+| etapy_wyprawy          |
+| kreatura               |
+| kreatura_bez_ekwipunku |
+| nowa_kreatura          |
+| nowa_kreatura_1        |
+| nowa_kreatura_2        |
+| sektor                 |
+| uczestnicy             |
+| wyprawa                |
+| zasob                  |
++------------------------+
+11 rows in set (0.01 sec)
+
+mysql> select * from nowa_kreatura;
++------------+----------------------------+
+| idKreatury | nazwa                      |
++------------+----------------------------+
+|          1 | Bjorn                      |
+|          2 | Brutal                     |
+|          3 | Khorad                     |
+|          4 | Birgun                     |
+|          5 | Defgard                    |
+|          6 | Astrid                     |
+|          7 | Ibra                       |
+|          8 | Bjolkolur                  |
+|          9 | Nemo                       |
+|         10 | Loko                       |
+|         11 | Drozd                      |
+|         12 | Ara                        |
+|         13 | Szczeki                    |
+|         14 | Tesciowa                   |
+|         15 | Tiki                       |
+|         16 | Dziadek                    |
+|         17 | sztuczna szczeka tesciowej |
+|         18 | Tesciowa dziadka           |
+|         19 | Gollum                     |
+|         20 | Trollik                    |
+|         21 | Silacz                     |
+|         34 | Twoja Stara                |
+|        100 | Babajaga                   |
++------------+----------------------------+
+23 rows in set (0.00 sec)
+
+mysql> select wyprawa.nazwa,sum(length(etapy_wyprawy.dziennik)) as liczba_znakow from etapy_wyprawy join wyprawa on etapy_wyprawy.idWyprawy=wyprawa.id_wyprawy group by wyprawa.id_wyprawy having liczba_znakow < 400;
++-----------------------+---------------+
+| nazwa                 | liczba_znakow |
++-----------------------+---------------+
+| Poszukiwanie ziecia   |           344 |
+| Polowanie na tesciowa |           310 |
++-----------------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select sub.id_wyprawy,round(sub.laczna_waga/count(uczestnicy.id_wyprawy),2) as srednia_waga_zasobu from uczestnicy join(select uczestnicy.id_wyprawy,sum(ekwipunek.ilosc*zasob.waga) as laczna_waga from uczestnicy join ekwipunek on
+ekwipunek.idKreatury = uczestnicy.id_uczestnika join zasob on zasob.idZasobu=ekwipunek.idZasobu) sub on sub.id_wyprawy=uczestnicy.id_wyprawy group by id_wyprawy;
++------------+---------------------+
+| id_wyprawy | srednia_waga_zasobu |
++------------+---------------------+
+|          2 |               27.54 |
++------------+---------------------+
+1 row in set (0.04 sec)
+
+mysql> select sub.id_wyprawy,round(sub.laczna_waga/count(uczestnicy.id_wyprawy),2) as srednia_waga_zasobu from uczestnicy join(select uczestnicy.id_wyprawy,sum(ekwipunek.ilosc*zasob.waga) as laczna_waga from uczestnicy join ekwipunek on
+ekwipunek.idKreatury = uczestnicy.id_uczestnika join zasob on zasob.idZasobu=ekwipunek.idZasobu group by uczestnicy.id_wyprawy) sub on sub.id_wyprawy=uczestnicy.id_wyprawy group by id_wyprawy;
++------------+---------------------+
+| id_wyprawy | srednia_waga_zasobu |
++------------+---------------------+
+|          2 |               14.81 |
+|          3 |               12.52 |
+|          1 |                 2.8 |
++------------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select sub3.nazwa, sub3.wiek_w_dniach from uczestnicy join(select etapy_wyprawy.idWyprawy,sum(case when etapy_wyprawy.sektor=7 then 1 else 0 end) as czy_przechodzil from etapy_wyprawy group by etapy_wyprawy.idWyprawy having czy_przechodzil > 0) sub on sub.idWyprawy=uczestnicy.id_wyprawy left join(select kreatura.nazwa,uczestnicy.id_wyprawy,uczestnicy.id_uczestnika,datediff(wyprawa.data_rozpoczecia,kreatura.dataUr) as wiek_w_dniach from uczestnicy join wyprawa on uczestnicy.id_wyprawy=wyprawa.id_wyprawy join kreatura on kreatura.idKreatury=uczestnicy.id_uczestnika) sub3 on uczestnicy.id_uczestnika=sub3.id_uczestnika and sub.idWyprawy=sub3.id_wyprawy;
++----------------------------+---------------+
+| nazwa                      | wiek_w_dniach |
++----------------------------+---------------+
+| Bjorn                      |         11082 |
+| Bjorn                      |         11080 |
+| Khorad                     |         10610 |
+| Birgun                     |          9216 |
+| Astrid                     |          8384 |
+| Ibra                       |          9678 |
+| Bjolkolur                  |          8890 |
+| Nemo                       |          8339 |
+| Loko                       |          8338 |
+| Drozd                      |          9159 |
+| Drozd                      |          9157 |
+| Szczeki                    |          9616 |
+| Tesciowa                   |         16376 |
+| Tiki                       |         10220 |
+| Dziadek                    |         20281 |
+| Dziadek                    |         20279 |
+| sztuczna szczeka tesciowej |          7293 |
+| Tesciowa dziadka           |         25661 |
++----------------------------+---------------+
+18 rows in set (0.01 sec)
+
+mysql>
