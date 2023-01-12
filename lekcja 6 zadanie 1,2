@@ -1,0 +1,88 @@
+mysql> use kruszewskim;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> DELIMITER //
+mysql> CREATE TRIGGER sprawdzWage
+    -> BEFORE INSERT ON kreatura
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.waga > 0 THEN
+    ->         SET NEW.waga = NEW.waga;
+    ->     ELSE
+    ->         SET NEW.waga = 0;
+    -> END IF;
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+mysql> ;
+ERROR:
+No query specified
+
+mysql> INSERT INTO kreatura(idKreatury, nazwa, waga) VALUES(101,'test1',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+--------+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwig |
++------------+----------------------------+----------+------------+------+--------+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     80 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     85 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     81 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     66 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     72 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     49 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     87 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     93 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |      1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |      4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |      1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |      1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    600 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     40 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     25 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    100 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |      1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     12 |
+|         19 | Gollum                     | poczwara | 1100-10-10 | NULL |   NULL |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   1000 |
+|        101 | test1                      | NULL     | NULL       |    5 |   NULL |
+|        101 | test1                      | NULL     | NULL       |    5 |   NULL |
++------------+----------------------------+----------+------------+------+--------+
+22 rows in set (0.00 sec)
+
+DELIMITER //
+CREATE TRIGGER sprawdzWage2
+BEFORE UPDATE ON kreatura
+FOR EACH ROW
+BEGIN
+    IF NEW.waga > 0 THEN
+        SET NEW.waga = NEW.waga;
+    ELSE
+        SET NEW.waga = 0;
+END IF;
+END //
+DELIMITER ;
+
+CREATE TABLE archiwum_wypraw (
+  id_wyprawy INT,
+  nazwa VARCHAR(200),
+  data_rozpoczecia DATE,
+  data_zakonczenia DATE,
+  kierownik VARCHAR(40)
+);
+ 
+DELIMITER //
+CREATE TRIGGER usuniete_z_wyprawa
+AFTER DELETE ON wyprawa
+FOR EACH ROW
+BEGIN
+    DECLARE kierownik_id INT;
+    DECLARE kierownik_nazwa VARCHAR(128);
+    SET kierownik_id = OLD.kierownik;
+    SET kierownik_nazwa = (SELECT kreatura.nazwa FROM wyprawa JOIN kreatura ON wyprawa.kierownik=kreatura.idKreatury AND kierownik=kierownik_id);
+    INSERT INTO archiwum_wypraw (id_wyprawy, nazwa, data_rozpoczecia, data_zakonczenia, kierownik) VALUES (OLD.id_wyprawy, OLD.nazwa, OLD.data_rozpoczecia, OLD.data_zakonczenia, kierownik_nazwa);
+END //
+DELIMITER ;
