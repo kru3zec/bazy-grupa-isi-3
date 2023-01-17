@@ -559,5 +559,95 @@ mysql> select * from izba;
 +---------------+------------+--------+------------+------------+
 1 row in set (0.00 sec)
 
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| przetwory             |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc przetwory;
++---------------+-------------+------+-----+------------------+-------+
+| Field         | Type        | Null | Key | Default          | Extra |
++---------------+-------------+------+-----+------------------+-------+
+| id_przetwory  | int         | NO   | PRI | NULL             |       |
+| rok_produkcji | year        | YES  |     | 1954             |       |
+| id_wykonawcy  | int         | YES  | MUL | NULL             |       |
+| zawartosc     | varchar(40) | YES  |     | NULL             |       |
+| dodatek       | varchar(40) | YES  |     | papryczka_chilli |       |
+| id_konsumenta | int         | YES  | MUL | NULL             |       |
++---------------+-------------+------+-----+------------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT
+    -> TABLE_NAME,
+    -> CONSTRAINT_NAME,
+    -> REFERENCED_TABLE_NAME,
+    -> REFERENCED_COLUMN_NAME
+    -> FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    -> WHERE REFERENCED_TABLE_NAME = 'przetwory';
+Empty set (0.13 sec)
+
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| przetwory             |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+5 rows in set (0.01 sec)
+
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> drop table przetwory;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
+| statek                |
+| systemy               |
+| walizka               |
++-----------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from walizka
+    -> ;
++------------+-----------+----------+----------------+
+| id_walizki | pojemnosc | kolor    | id_wlasciciela |
++------------+-----------+----------+----------------+
+|          1 |        60 | czerwony |              1 |
+|          2 |        99 | rozowy   |              3 |
++------------+-----------+----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE walizka DROP CONSTRAINT walizka_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
 mysql> DROP TABLE izba;
 Query OK, 0 rows affected (0.02 sec)
+
