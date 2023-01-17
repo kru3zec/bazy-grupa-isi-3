@@ -1,3 +1,169 @@
+Rozbitek
+Bjorn wyrzucony przez morskie fale, leżał nieprzytomny na plaży. Obudziło go stukanie 
+Drozda w jego hełm. Otworzył oczy i ujrzał przyjaciela, który powiedział do niego „Stary, Tobie to dać 
+stery …” Bjorn nie pamiętał nic z tego, co się wydarzyło poprzedniego dnia. Drozd opowiedział mu o 
+całym zdarzeniu, bo w momencie gdy opuścił załogę, aby szukać najbliższego lądu, wracał na statek, 
+żeby powiedzieć wikingom o swoim odkryciu i wtedy zobaczył, jak rozbijają się o skałę.
+
+=======================================================
+Zadanie 1
+1. Skopiuj tabele 'kreatura','zasob','ekwipunek' z bazy 'wikingowie' do swojej bazy. 
+=======================================================
+
+mysql> CREATE TABLE kreatura AS SELECT * FROM wikingowie.kreatura;
+Query OK, 20 rows affected (0.15 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql> select * from kreatura;
++------------+----------------------------+----------+------------+------+------                                     --+
+| idKreatury | nazwa                      | rodzaj   | dataUr     | waga | udzwi                                     g |
++------------+----------------------------+----------+------------+------+------                                     --+
+|          1 | Bjorn                      | wiking   | 1670-04-01 |   99 |     8                                     0 |
+|          2 | Brutal                     | wiking   | 1672-12-24 |  120 |     8                                     5 |
+|          3 | Khorad                     | wiking   | 1671-07-15 |  105 |     8                                     1 |
+|          4 | Birgun                     | wiking   | 1675-05-11 |   88 |     6                                     6 |
+|          5 | Defgard                    | wiking   | 1674-07-05 |  100 |     7                                     2 |
+|          6 | Astrid                     | wiking   | 1677-08-18 |   75 |     4                                     9 |
+|          7 | Ibra                       | wiking   | 1674-02-03 |  105 |     8                                     7 |
+|          8 | Bjolkolur                  | wiking   | 1676-03-30 |  110 |     9                                     3 |
+|          9 | Nemo                       | ryba     | 1677-10-02 |    1 |                                           1 |
+|         10 | Loko                       | waz      | 1677-10-05 |    3 |                                           4 |
+|         11 | Drozd                      | ptak     | 1675-07-07 |    2 |                                           1 |
+|         12 | Ara                        | ptak     | 1676-05-05 |    2 |                                           1 |
+|         13 | Szczeki                    | ryba     | 1674-04-06 | 2100 |    60                                     0 |
+|         14 | Tesciowa                   | wiedzma  | 1655-10-01 |   65 |     4                                     0 |
+|         15 | Tiki                       | malpa    | 1672-08-08 |   32 |     2                                     5 |
+|         16 | Dziadek                    | wiking   | 1645-01-23 |   54 |    10                                     0 |
+|         17 | sztuczna szczeka tesciowej | wiedzma  | 1680-08-13 |    2 |                                           1 |
+|         18 | Tesciowa dziadka           | wiedzma  | 1630-04-30 |   78 |     1                                     2 |
+|         19 | Gollum                     | poczwara | 1100-10-10 | NULL |   NUL                                     L |
+|        100 | Babajaga                   | wiedzma  | 1000-01-01 |   20 |   100                                     0 |
++------------+----------------------------+----------+------------+------+------                                     --+
+20 rows in set (0.00 sec)
+
+mysql> CREATE TABLE zasob AS SELECT * FROM wikingowie.zasob;
+Query OK, 28 rows affected, 1 warning (0.05 sec)
+Records: 28  Duplicates: 0  Warnings: 1
+
+=======================================================
+2. Wypisz wszystkie rekordy z tabeli 'zasob'. 
+3. Wypisz wszystkie rekordy z tabeli 'zasob' gdzie typ to jedzenie.
+=======================================================
+
+mysql> select * from zasob;
++----------+-------------------+--------+-------+----------------+--------------------+
+| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
++----------+-------------------+--------+-------+----------------+--------------------+
+|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie           |
+|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie          |
+|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie           |
+|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie           |
+|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie           |
+|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie           |
+|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie           |
+|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie           |
+|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie           |
+|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL               |
+|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL               |
+|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL               |
+|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL               |
+|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie            |
+|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie            |
+|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie            |
+|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie            |
+|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbrodni  |
+|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbrodni  |
+|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbrodni  |
+|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budowlany |
+|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budowlany |
+|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoczynku |
+|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoczynku |
+|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL               |
+|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL               |
+|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL               |
+|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie           |
++----------+-------------------+--------+-------+----------------+--------------------+
+28 rows in set (0.00 sec)
+
+mysql> select * from zasob WHERE rodzaj = "jedzenie";
++----------+----------+--------+-------+----------------+----------+
+| idZasobu | nazwa    | waga   | ilosc | dataPozyskania | rodzaj   |
++----------+----------+--------+-------+----------------+----------+
+|        1 | kokos    |   2.00 |     3 | 2007-07-23     | jedzenie |
+|        3 | kokos    |   4.00 |     1 | 2004-09-03     | jedzenie |
+|        4 | kokos    |   7.00 |     2 | 2010-10-13     | jedzenie |
+|        5 | banan    |   2.00 |    12 | 2015-11-09     | jedzenie |
+|        6 | figa     |   1.00 |    30 | 2001-12-14     | jedzenie |
+|        7 | krokodyl | 100.00 |     1 | 2005-07-14     | jedzenie |
+|        8 | bataty   |   1.00 |    30 | 2002-07-01     | jedzenie |
+|        9 | opos     |  12.00 |     2 | 2006-08-01     | jedzenie |
+|       28 | banan    |   1.00 |     7 | 2008-08-21     | jedzenie |
++----------+----------+--------+-------+----------------+----------+
+9 rows in set (0.00 sec)
+
+=======================================================
+4. Wypisz 'idZasobu', 'ilosc', dla kreatur o id 1,3,5.
+=======================================================
+
+mysql> SELECT idZasobu,ilosc from zasob;
++----------+-------+
+| idZasobu | ilosc |
++----------+-------+
+|        1 |     3 |
+|        2 |     1 |
+|        3 |     1 |
+|        4 |     2 |
+|        5 |    12 |
+|        6 |    30 |
+|        7 |     1 |
+|        8 |    30 |
+|        9 |     2 |
+|       10 |   120 |
+|       11 |    20 |
+|       12 |    30 |
+|       13 |    40 |
+|       14 |     2 |
+|       15 |  1000 |
+|       16 |     7 |
+|       17 |     9 |
+|       18 |     1 |
+|       19 |    10 |
+|       20 |     3 |
+|       21 |   300 |
+|       22 |   120 |
+|       23 |     1 |
+|       24 |     1 |
+|       25 |     1 |
+|       26 |     4 |
+|       27 |     1 |
+|       28 |     7 |
++----------+-------+
+28 rows in set (0.00 sec)
+
+
+mysql> SELECT idZasobu,ilosc from zasob WHERE idZasobu = '1,3,5';
++----------+-------+
+| idZasobu | ilosc |
++----------+-------+
+|        1 |     3 |
++----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+
+
+mysql> SELECT idZasobu,ilosc from zasob WHERE idZasobu = '1' and '3' and '5';
++----------+-------+
+| idZasobu | ilosc |
++----------+-------+
+|        1 |     3 |
++----------+-------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
 mysql> select idZasobu, ilosc from zasob join kreatura where idKreatury = '1';
 +----------+-------+
 | idZasobu | ilosc |
@@ -600,6 +766,23 @@ mysql> select idZasobu,ilosc FROM zasob join kreatura;
 +----------+-------+
 560 rows in set (0.00 sec)
 
+Kokos?
+Wygląd wyspy, na której się znaleźli zdziwił ich, ponieważ była ona całkiem inna niż te w 
+miejscu ich zamieszkania. Bjorn poczuł, że coś go kłuje w plecy. Wyglądało to jak duża, brązowa 
+włochata kulka. Nie wiedział co to jest, ale pomyślał, że jak będzie z tym chodzić i do tego czegoś 
+mówić, to w końcu coś się wykluje. Na chwilę zapominając o tym, co znalazł, zaczął wzywać pomoc. 
+Po kilku godzinach nadal nikt go nie usłyszał, dlatego ze złości wziął swoje „jajo” i rzucił nim o palmę. 
+Magiczna kulka rozpadła się, ale uderzenie było tak silne, że z palmy spadło kilka nowych. Bjorn 
+podniósł rozbitą kulkę. Pięknie pachniała, więc spróbował ją zjeść. Postanowił, że nazwie to kokos i 
+zrozumiał, że dzięki nim będzie miał pożywienia na wiele dni.
+
+=======================================================
+Zadanie 2
+1. Wyświetl kreatury, które nie są wiedźmą i dźwigają co najmniej 50kg. 
+2. Wyświetl zasoby, które ważą pomiędzy 2 a 5 kg. 
+3. Wyświetl kreatury, których nazwa zawiera 'or' i które dźwigają między 30kg a 70kg.
+=======================================================
+
 mysql> select * from kreatura where rodzaj !='wiedzma' and udzwig >=50;
 +------------+-----------+--------+------------+------+--------+
 | idKreatury | nazwa     | rodzaj | dataUr     | waga | udzwig |
@@ -673,6 +856,20 @@ mysql> select * from zasob where waga between '2' and '5';
 |       27 | miotla            | 3.00 |     1 | 2005-10-10     | NULL               |
 +----------+-------------------+------+-------+----------------+--------------------+
 10 rows in set (0.00 sec)
+
+Hamak
+Bjorn stwierdził, że nie ma zamiaru już spać na kokosach, więc udał się do dżungli, aby 
+znaleźć gałęzie i liany na hamak. Nagle przypomniał sobie, że zgubił swój topór, więc zębami 
+twardymi niczym skała łamiąca statek utnie potrzebne mu materiały. Długo się męczył, poprosił też 
+drozda o pomoc w dziobaniu drewna i w końcu udało się. Bjorn rozwiesił sobie hamak między 
+dwiema palmami i zasypiając myślał o tym, co go czeka jutro.
+
+=======================================================
+Zadanie 3
+1. Wyświetl zasoby, które zostały pozyskane w miesiącach lipcu i sierpniu. 
+2. Wyświetl zasoby, które mają zdefiniowany rodzaj od najlżejszego do najcięższego. 
+3. Wyświetl 5 najstarszych kreatur.
+=======================================================
 
 mysql> select * from zasob where month(dataPozyskania) = 7 or month(dataPozyskania) = 8;
 +----------+-------------------+--------+-------+----------------+--------------------+
@@ -788,6 +985,26 @@ mysql> select * from kreatura order by dataUr desc limit 5;
 +------------+----------------------------+---------+------------+------+--------+
 5 rows in set (0.00 sec)
 
+
+Złota rybka
+Dobrobyt uderzył Bjornowi do głowy i jak już ma ekskluzywny hamak, to przecież nie będzie 
+się żywić samymi kokosami. Postanowił więc ponownie udać się do dżungli, aby znaleźć coś, z czego 
+mógłby wykonać wędkę. Pełen doświadczenia z poprzedniego dnia uwinął się z tym raz dwa . Wrócił 
+na swoją plażę, ale złowić rybę nie było wcale tak łatwo. Na początku mu nie szło, ciągle łowił stare 
+deski, buty i staniki. Aż w końcu po podniesieniu wędki przeżył szok. Jego oczom ukazała się złota 
+rybka. Powiedziała, że może spełnić jego 3 życzenia. Bjorn nie mógł uwierzyć, więc odparł: „No to 
+zrób tak, żeby Drozd miał różowy ogon”. Przez chwilę nic się nie działo, aż tu bach! Różowe pióra! 
+Bjorn pomyślał, że ja może mieć wszystko co chce, to mógłby odzyskać swój toporek. Rybka go 
+wysłuchała, broń spadła z nieba i uderzyła go w łeb, tym samym powalając go na ziemię. Drozd 
+pochylił się nad nim i szyderczym głosem powiedział : „HA! To za te pióra!”
+
+=======================================================
+Zadanie 4
+1. Wyświetl unikalne rodzaje zasobów. 
+2. Wyświetl jako jedną kolumnę nazwę i rodzaj kreatury (w postaci: nazwa - rodzaj), gdzie 
+rodzaj rozpoczyna się od 'wi'.
+=======================================================
+
 mysql> select distinct rodzaj from zasob;
 +--------------------+
 | rodzaj             |
@@ -821,6 +1038,12 @@ mysql> select concat(nazwa,'-',rodzaj) as 'nazwa-rodzaj' from kreatura where rod
 | Babajaga-wiedzma                   |
 +------------------------------------+
 13 rows in set (0.00 sec)
+
+=======================================================
+3. Wyświetl zasoby z całkowitą wagą danego zasobu (ilość * waga) dla zasobów pozyskanych w 
+latach 2000-2007.
+=======================================================
+
 
 mysql> select ilosc*waga from zasob;
 +------------+
@@ -892,12 +1115,6 @@ mysql> select * from zasob;
 +----------+-------------------+--------+-------+----------------+--------------------+
 28 rows in set (0.00 sec)
 
-mysql> select ilosc*waga from zasob where dataPozyskania between '2000' and '2007;'
-    -> ;
-Empty set, 56 warnings (0.00 sec)
-
-mysql> select ilosc*waga from zasob where dataPozyskania between '2000' and '2007';
-Empty set, 56 warnings (0.00 sec)
 
 mysql> select ilosc*waga from zasob where year(dataPozyskania) between '2000' and '2007';
 +------------+
@@ -949,7 +1166,7 @@ mysql> select ilosc*waga,dataPozyskania from zasob where year(dataPozyskania) be
 +------------+----------------+
 18 rows in set (0.00 sec)
 
-mysql> select idZasobu,nazwa ,ilosc*waga,dataPozyskania from zasob where year(dataPozyskania) between '20            00'
+mysql> select idZasobu,nazwa ,ilosc*waga,dataPozyskania from zasob where year(dataPozyskania) between '2000' and '2007';
 +----------+-----------------+------------+----------------+
 | idZasobu | nazwa           | ilosc*waga | dataPozyskania |
 +----------+-----------------+------------+----------------+
@@ -974,7 +1191,18 @@ mysql> select idZasobu,nazwa ,ilosc*waga,dataPozyskania from zasob where year(da
 +----------+-----------------+------------+----------------+
 18 rows in set (0.00 sec)
 
-mysql> select nazwa,waga*0,7 as 'waga netto',waga*0,3 as 'waga odpakow' from zasob where rodzaj='jedzenie            ';
+Twardy sen
+W czasie, gdy Bjorn leżał jak zabity, rybka wykorzystała okazję i uciekła. Drozd strasznie 
+wkurzył się na swojego towarzysza i tym razem postanowił go nie budzić i pozostawił go leżącego na 
+plaży w pełnym słońcu, żeby smażył się jak kotlet na patelni.
+
+=======================================================
+1. Zakładając, że każdy rodzaj jedzenia to 30% odpadu, wyświetl masę właściwego jedzenia 
+(netto) oraz wagę odpadków.
+=======================================================
+
+
+mysql> select nazwa,waga*0,7 as 'waga netto',waga*0,3 as 'waga odpakow' from zasob where rodzaj='jedzenie';
 +----------+--------+------------+--------+--------------+
 | nazwa    | waga*0 | waga netto | waga*0 | waga odpakow |
 +----------+--------+------------+--------+--------------+
@@ -1022,6 +1250,10 @@ mysql> select nazwa,waga*0.7 as 'waga netto',waga*0.3 as 'waga odpakow' from zas
 +----------+------------+--------------+
 9 rows in set (0.01 sec)
 
+=======================================================
+2. Wyświetl zasoby, które nie mają rodzaju.
+=======================================================
+
 mysql> select * from zasob where rodzaj is NULL;
 +----------+-----------------+------+-------+----------------+--------+
 | idZasobu | nazwa           | waga | ilosc | dataPozyskania | rodzaj |
@@ -1035,6 +1267,11 @@ mysql> select * from zasob where rodzaj is NULL;
 |       27 | miotla          | 3.00 |     1 | 2005-10-10     | NULL   |
 +----------+-----------------+------+-------+----------------+--------+
 7 rows in set (0.00 sec)
+
+=======================================================
+3. Wyświetl wszystkie unikalne rodzaje zasobów, których nazwa zaczyna się od 'Ba' lub kończy 
+się na 'os'. Dane posortuj alfabetycznie
+=======================================================
 
 mysql> select distinct rodzaj,nazwa from zasob where (nazwa like 'Ba%' or nazwa like '%os') order by nazw
 a;
