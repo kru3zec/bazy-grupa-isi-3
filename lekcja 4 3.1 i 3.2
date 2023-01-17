@@ -1,38 +1,15 @@
+Pieprz
+Po kilku godzinach walki z krzakami, dotarli na wielkie pole. Podeszli bliżej i zobaczyli, że na 
+krzakach rosną dziwne czarne kuleczki. Bjorn po miłych doświadczeniach z kokosami postanowił 
+sprawdzić, jak to smakuje. Niestety zaczął kaszleć, prychać i kichać. Przypomniał sobie, że dodawał 
+trochę tego do bigosu, ale nigdy tak naprawdę nie wiedział dlaczego. Oboje stali zamyśleni, a nagle 
+Drozd wybuchnął śmiechem i krzyknął: „HA! Zwialiśmy tam, gdzie pieprz rośnie!”
 
-   mysql> select * from ekwipunek;
-+-------------+------------+----------+-------+
-| idEkwipunku | idKreatury | idZasobu | ilosc |
-+-------------+------------+----------+-------+
-|           1 |          1 |        1 |     2 |
-|           2 |          1 |       10 |     1 |
-|           3 |          1 |       14 |     3 |
-|           4 |          1 |       15 |    53 |
-|           5 |          1 |        2 |     3 |
-|           6 |          2 |        2 |     2 |
-|           7 |          2 |        4 |     2 |
-|           8 |          1 |       23 |     1 |
-|           9 |          1 |       18 |     1 |
-|          10 |          6 |        1 |     4 |
-|          11 |          3 |       17 |     1 |
-|          12 |          7 |       16 |     1 |
-|          13 |          7 |       19 |     1 |
-|          14 |         14 |       25 |     2 |
-|          15 |         14 |       27 |     1 |
-|          16 |         14 |       24 |     1 |
-|          17 |         14 |       26 |     1 |
-|          18 |          6 |       20 |     1 |
-|          19 |          5 |       17 |     2 |
-|          20 |          8 |       21 |     2 |
-|          21 |         11 |       13 |     1 |
-|          22 |          8 |       22 |    10 |
-|          23 |         13 |        9 |     1 |
-|          24 |          5 |        2 |     2 |
-|          25 |          5 |       21 |    50 |
-|          26 |          5 |       16 |     1 |
-|          27 |       NULL |       12 |    34 |
-|          28 |          6 |       13 |     1 |
-+-------------+------------+----------+-------+
-28 rows in set (0.00 sec)
+=======================================================
+Zadanie 3
+1. Wyświetlić dla każdej kreatury ilości zasobów jakie niesie.
+=======================================================
+
 
 mysql> select nazwa, sum(ilosc) from ekwipunek join kreatura on kreatura.idKreatury = ekwipunek.idKreatury group by nazwa;
 +-----------+------------+
@@ -51,83 +28,9 @@ mysql> select nazwa, sum(ilosc) from ekwipunek join kreatura on kreatura.idKreat
 +-----------+------------+
 10 rows in set (0.00 sec)
 
-mysql> select * from zasob;
-+----------+-------------------+--------+-------+----------------+--------------------+
-| idZasobu | nazwa             | waga   | ilosc | dataPozyskania | rodzaj             |
-+----------+-------------------+--------+-------+----------------+--------------------+
-|        1 | kokos             |   2.00 |     3 | 2007-07-23     | jedzenie           |
-|        2 | siekiera          |  13.00 |     1 | 1974-01-04     | narzedzie          |
-|        3 | kokos             |   4.00 |     1 | 2004-09-03     | jedzenie           |
-|        4 | kokos             |   7.00 |     2 | 2010-10-13     | jedzenie           |
-|        5 | banan             |   2.00 |    12 | 2015-11-09     | jedzenie           |
-|        6 | figa              |   1.00 |    30 | 2001-12-14     | jedzenie           |
-|        7 | krokodyl          | 100.00 |     1 | 2005-07-14     | jedzenie           |
-|        8 | bataty            |   1.00 |    30 | 2002-07-01     | jedzenie           |
-|        9 | opos              |  12.00 |     2 | 2006-08-01     | jedzenie           |
-|       10 | stanik            |   0.20 |   120 | 2004-06-01     | NULL               |
-|       11 | stanik            |   0.30 |    20 | 2004-06-15     | NULL               |
-|       12 | stanik            |   0.40 |    30 | 2004-07-15     | NULL               |
-|       13 | stanik            |   0.20 |    40 | 2012-08-15     | NULL               |
-|       14 | buty              |   2.00 |     2 | 2010-08-15     | ubranie            |
-|       15 | lisc palmowy      |   0.10 |  1000 | 2001-03-25     | ubranie            |
-|       16 | skora geparda     |  30.00 |     7 | 2013-07-25     | ubranie            |
-|       17 | kiel slonia       |   1.00 |     9 | 2003-01-25     | ubranie            |
-|       18 | topor             |   3.00 |     1 | 2000-01-25     | narzedzie zbrodni  |
-|       19 | dzida             |   2.00 |    10 | 2001-03-21     | narzedzie zbrodni  |
-|       20 | luk               |   1.00 |     3 | 2003-04-17     | narzedzie zbrodni  |
-|       21 | pnacza            |   0.10 |   300 | 2010-02-17     | material budowlany |
-|       22 | deski             |   0.50 |   120 | 2008-02-17     | material budowlany |
-|       23 | hamak             |   2.00 |     1 | 2001-01-17     | miejsce wypoczynku |
-|       24 | chatka na drzewie |   2.00 |     1 | 2012-08-17     | miejsce wypoczynku |
-|       25 | nie wiadomo co    |   4.00 |     1 | 2001-08-10     | NULL               |
-|       26 | ogien do ziania   |   1.00 |     4 | 2002-08-10     | NULL               |
-|       27 | miotla            |   3.00 |     1 | 2005-10-10     | NULL               |
-|       28 | banan             |   1.00 |     7 | 2008-08-21     | jedzenie           |
-+----------+-------------------+--------+-------+----------------+--------------------+
-28 rows in set (0.00 sec)
-
-mysql> select kreatura.nazwa, zasob.nazwa from ekwipunek join kreatura on kreatura.idKreatury = ekwipunek.idKreatury
-join zasob on ekwipunek.idZasobu = zasob.idZasobu group by kreatura.nazwa;
-+-----------+----------------+
-| nazwa     | nazwa          |
-+-----------+----------------+
-| Bjorn     | kokos          |
-| Brutal    | siekiera       |
-| Astrid    | kokos          |
-| Khorad    | kiel slonia    |
-| Ibra      | skora geparda  |
-| Tesciowa  | nie wiadomo co |
-| Defgard   | kiel slonia    |
-| Bjolkolur | pnacza         |
-| Drozd     | stanik         |
-| Szczeki   | opos           |
-+-----------+----------------+
-10 rows in set (0.00 sec)
-
-mysql> select kreatura.nazwa as "kreatura", zasob.nazwa as "nazwy zasobu" from ekwipunek join kreatura on kreatura.idKreatury = ekwipunek.idKreatury join zasob on ekwipunek.idZasobu = zasob.idZasobu group by zasob.nazwa;
-+-----------+-------------------+
-| kreatura  | nazwy zasobu      |
-+-----------+-------------------+
-| Bjorn     | kokos             |
-| Bjorn     | stanik            |
-| Bjorn     | buty              |
-| Bjorn     | lisc palmowy      |
-| Bjorn     | siekiera          |
-| Bjorn     | hamak             |
-| Bjorn     | topor             |
-| Khorad    | kiel slonia       |
-| Ibra      | skora geparda     |
-| Ibra      | dzida             |
-| Tesciowa  | nie wiadomo co    |
-| Tesciowa  | miotla            |
-| Tesciowa  | chatka na drzewie |
-| Tesciowa  | ogien do ziania   |
-| Astrid    | luk               |
-| Bjolkolur | pnacza            |
-| Bjolkolur | deski             |
-| Szczeki   | opos              |
-+-----------+-------------------+
-18 rows in set (0.00 sec)
+=======================================================
+2. Wyświetlić dla każdej kreatury nazwy zasobów jakie posiada
+=======================================================
 
 mysql> select kreatura.nazwa as "kreatura", zasob.nazwa as "nazwy zasobu" from ekwipunek join kreatura on kreatura.idKreatury = ekwipunek.idKreatury join zasob on ekwipunek.idZasobu = zasob.idZasobu order by zasob.nazwa;
 +-----------+-------------------+
@@ -161,6 +64,3 @@ mysql> select kreatura.nazwa as "kreatura", zasob.nazwa as "nazwy zasobu" from e
 | Bjorn     | stanik            |
 | Bjorn     | topor             |
 +-----------+-------------------+
-27 rows in set (0.00 sec)
-
-mysql>
