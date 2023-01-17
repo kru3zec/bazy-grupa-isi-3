@@ -1,3 +1,20 @@
+CICHA WODA
+Po wielu tygodniach bujania się po morzu w wielkim skwarze bez najmniejszego podmuchu wiatru, 
+który muskałby ich brody, zorientowali się, że kończą im się zapasy wody, a co najgorsze, od tygodnia 
+nie mieli w ustach czegoś mocniejszego. Wikingowie, jako naród żyjący wśród śniegu nie są 
+przyzwyczajeni do słońca, dlatego też strasznie cierpieli w upale i zaczęli coś majaczyć.
+
+
+
+
+
+=======================================================
+Zadanie 1
+a) uśmierć dwóch najstarszych wikingów, ale to nie może być Bjorn (DELETE z WHERE) = where id = id_postaci
+b) usuń klucz główny z tabeli postac - może być potrzebnych kilka komend (np. odłączenie kluczy 
+obcych)
+=======================================================
+
 mysql> ALTER TABLE postacie MODIFY COLUMN id_postaci INT AUTO_INCREMENT;
 Query OK, 0 rows affected (0.02 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -5,6 +22,20 @@ Records: 0  Duplicates: 0  Warnings: 0
 mysql> ALTER TABLE postacie DROP PRIMARY KEY, CHANGE id_postaci id_postaci INT;
 Query OK, 6 rows affected (0.08 sec)
 Records: 6  Duplicates: 0  Warnings: 0
+
+
+SYRENKA
+Następnego ranka na horyzoncie ujrzeli skałę, a na niej postać kobiety. Wszyscy co do jednego 
+chwycili za wiosła i zaczęli gnać w jej stronę. Gdy podpłynęli trochę bliżej zobaczyli, że to piękna 
+syrena, kusząca ich swoim głosem. Wikingowie nie mogąc oprzeć się tej niewiaście, siedzieli oparci o 
+burtę z jęzorami na wierzchu i śliną cieknącą po brodzie. Drozd przyglądał się im z góry dłuższa 
+chwilę, po czym rzekł: „Księga Wikingów mówi jasno: Kto się w syrenie zakocha, temu morze strzeli 
+focha!”, lecz nikt go nie słuchał, więc odwrócił się do nich ogonem i odleciał.
+
+=======================================================
+Zadanie 2
+a) do tabeli postać dodaj pole pesel składające się z 11 znaków i ustaw to pole na klucz główny
+=======================================================
 
 mysql> alter table postacie add pesel CHAR(11) NOT NULL FIRST;
 Query OK, 0 rows affected (0.04 sec)
@@ -21,39 +52,22 @@ mysql> select * from postacie;
 |       |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
 |       |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
 +-------+------------+----------+---------+---------+----------------+------------+------+
-6 rows in set (0.00 sec)
 
 mysql> UPDATE postacie SET pesel='11750283745' WHERE id_postaci=1;
-Query OK, 1 row affected (0.01 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='22960023119' WHERE id_postaci=1;
-Query OK, 1 row affected (0.01 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='11750283745' WHERE id_postaci=1;
-Query OK, 1 row affected (0.01 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='22960023119' WHERE id_postaci=2;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='33884599216' WHERE id_postaci=3;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='44992046510' WHERE id_postaci=4;
-Query OK, 1 row affected (0.01 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='55939900234' WHERE id_postaci=5;
-Query OK, 1 row affected (0.01 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> UPDATE postacie SET pesel='66882267102' WHERE id_postaci=6;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
 
 mysql> select * from postacie;
 +-------------+------------+----------+---------+---------+----------------+------------+------+
@@ -66,24 +80,8 @@ mysql> select * from postacie;
 | 55939900234 |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
 | 66882267102 |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
 +-------------+------------+----------+---------+---------+----------------+------------+------+
-6 rows in set (0.00 sec)
 
 mysql> alter table postacie ADD PRIMARY KEY (pesel);
-Query OK, 0 rows affected (0.05 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from postacie;
-+-------------+------------+----------+---------+---------+----------------+------------+------+
-| pesel       | id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
-+-------------+------------+----------+---------+---------+----------------+------------+------+
-| 11750283745 |          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
-| 22960023119 |          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
-| 33884599216 |          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
-| 44992046510 |          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
-| 55939900234 |          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
-| 66882267102 |          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
-+-------------+------------+----------+---------+---------+----------------+------------+------+
-6 rows in set (0.00 sec)
 
 mysql> desc postacie;
 +----------------+---------------------------------+------+-----+---------+-------+
@@ -98,14 +96,15 @@ mysql> desc postacie;
 | data_ur        | date                            | YES  |     | NULL    |       |
 | wiek           | int unsigned                    | YES  |     | NULL    |       |
 +----------------+---------------------------------+------+-----+---------+-------+
-8 rows in set (0.00 sec)
+
+=======================================================
+b) w tabeli postać zmień pole rodzaj, tak, aby możliwe było dodanie syreny 
+c) wstaw do tabeli syrenę o nazwie Gertruda Nieszczera 
+=======================================================
 
 mysql> alter table postacie modify column rodzaj ENUM('wiking','ptak','kobieta','syrena');
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
 mysql> insert into postacie (pesel,id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('99002358235','7','Gertruda Nieszczera','syrena','1792-04-17','20');
-Query OK, 1 row affected (0.00 sec)
 
 mysql> select * from postacie;
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
@@ -119,7 +118,17 @@ mysql> select * from postacie;
 | 66882267102 |          6 | Hal                 | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
 | 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
-7 rows in set (0.00 sec)
+
+PRZECHYŁY
+Wszyscy jeszcze oszołomieni widokiem syreny nie zauważyli, że zaczęło coraz bardziej bujać statkiem. 
+Jedni kładli się sądząc, że przechyły będą mniej odczuwalne, inni trzymali się masztu, bo uznali go za 
+dobre miejsce, a reszta załogi dzielnie sterowała statkiem, aby płynąć ciągle przed siebie i jak 
+najszybciej uciec od wrednej kobiety – TEŚCIOWEJ.
+
+=======================================================
+Zadanie 3
+a) Wszystkie postacie, które mają w swojej nazwie 'a', wsadź na statek Bjorna 
+=======================================================
 
 mysql> select * from statek;
 +--------------+---------------+----------------+---------------+
@@ -128,11 +137,8 @@ mysql> select * from statek;
 | 1            | handlowe      | 1769-04-12     |          1600 |
 | 2            | sportowe      | 1789-03-13     |          1000 |
 +--------------+---------------+----------------+---------------+
-2 rows in set (0.00 sec)
 
 mysql> update postacie SET statek_postaci='2' WHERE nazwa LIKE '%a%';
-Query OK, 4 rows affected (0.00 sec)
-Rows matched: 4  Changed: 4  Warnings: 0
 
 mysql> select * from postacie;
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
@@ -146,22 +152,42 @@ mysql> select * from postacie;
 | 66882267102 |          6 | Hal                 | wiking  | NULL    | 2              | 1790-04-25 |   71 |
 | 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | 2              | 1792-04-17 |   20 |
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
-7 rows in set (0.00 sec)
+
+=======================================================
+b) Zmniejsz ładowność wszystkim statkom o 30%, których data wodowania była w XX wieku
+=======================================================
 
 mysql> UPDATE statek SET max_ladownosc = (max_ladownosc*0.7) WHERE year(data_wodowania) BETWEEN 1900 AND 2000;
-Query OK, 0 rows affected (0.00 sec)
-Rows matched: 0  Changed: 0  Warnings: 0
+
+=======================================================
+c) ustaw warunek sprawdzający czy wiek postaci nie jest większy od 1000 
+=======================================================
 
 mysql> alter table postacie add check (wiek<1000);
-Query OK, 7 rows affected (0.06 sec)
-Records: 7  Duplicates: 0  Warnings: 0
+
+
+WĄŻ LOKO
+Po kilku dniach ciągłej walki z wiatrem, jedni zrobili się zieloni na twarzy i zaczęli farbować wodę, 
+drudzy nadal trzymali się masztu coraz bardziej trzęsąc portkami, a cała reszta z Bjornem na czele 
+dzielnie prowadziła łajbą. Aż tu nagle, ni z gruchy ni z pietruchy obok nich wynurzył się dziwny stwór. 
+Długi był na 100 metrów, do węża bardzo podobny, ale na łbie miał potężnego irokeza. Bjorn spytał 
+go: „Kim jesteś i gdzie znajdę jakiś ląd?”, po czym ten odpowiedział: „Loko mówią mi, a ląd wiele mil 
+ssssstąd jesssst”, po czym zanurzył się ochlapując wszystkich i odpłynął w nieznane.
+
+=======================================================
+Zadanie 4
+a) Do postaci dodaj węża Loko, tylko nie wsadzaj go na statek 
+=======================================================
 
 mysql> alter table postacie modify column rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
 mysql> insert into postacie (pesel,id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES ('10952251045','8','Loko','waz','1811-05-19','3');
-Query OK, 1 row affected (0.01 sec)
+
+
+=======================================================
+b) Stwórz nową tabelę na podstawie tabeli Postacie (dokładnie takie same pola), nazwij ją Marynarz -
+wrzuć do tej tabeli wszystkie postacie które mają zdefiniowany statek 
+=======================================================
 
 mysql> CREATE TABLE marynarz LIKE postacie;
 Query OK, 0 rows affected (0.02 sec)
@@ -208,6 +234,22 @@ mysql> desc marynarz;
 +----------------+------------------------------------------------+------+-----+---------+-------+
 8 rows in set (0.00 sec)
 
+
+
+SZTORM
+Po rozmowie z wężem Lokiem na niebie zebrały się czarne chmury. Wtedy już cała załoga zaczęła 
+panikować i miała pełne gacie. Jedynie Bjornowi pozostały resztki rozumu i krzyknął do załogi: „Czego 
+się bardziej boicie – podmuchu wiaterku, czy oddechu teściowej?!” Wtedy wszyscy bez chwili 
+namysłu ruszyli dalej. Wpłynęli w wielką burzę, miotało nimi jak szatan na lewo i prawo, aż w końcu 
+fala zepchnęła ich na skałę i cała łódź poszła w drzazgi. Bjorn w ostatniej chwili złapał ocalałą deskę i 
+próbował dostrzec resztę swojej załogi. Niestety, nikogo nie zobaczył. Jedynie w oddali słyszał słowa 
+Drozda „BJORN come back, come back…”
+
+=======================================================
+Zadanie 5
+a) wysadź wszystkich ze statku
+=======================================================
+
 mysql> select * from postacie;
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
 | pesel       | id_postaci | nazwa               | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
@@ -221,11 +263,9 @@ mysql> select * from postacie;
 | 66882267102 |          6 | Hal                 | wiking  | NULL    | 2              | 1790-04-25 |   71 |
 | 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | 2              | 1792-04-17 |   20 |
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
-8 rows in set (0.00 sec)
 
 mysql> update postacie SET statek_postaci=NULL;
-Query OK, 7 rows affected (0.01 sec)
-Rows matched: 8  Changed: 7  Warnings: 0
+
 
 mysql> select * from postacie;
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
@@ -240,10 +280,13 @@ mysql> select * from postacie;
 | 66882267102 |          6 | Hal                 | wiking  | NULL    | NULL           | 1790-04-25 |   71 |
 | 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
-8 rows in set (0.00 sec)
+
+=======================================================
+b) uśmierć jednego wikinga 
+=======================================================
+
 
 mysql> DELETE FROM postacie WHERE id_postaci = 5;
-Query OK, 1 row affected (0.00 sec)
 
 mysql> select * from postacie;
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
@@ -257,7 +300,10 @@ mysql> select * from postacie;
 | 66882267102 |          6 | Hal                 | wiking  | NULL    | NULL           | 1790-04-25 |   71 |
 | 99002358235 |          7 | Gertruda Nieszczera | syrena  | NULL    | NULL           | 1792-04-17 |   20 |
 +-------------+------------+---------------------+---------+---------+----------------+------------+------+
-7 rows in set (0.00 sec)
+
+=======================================================
+c) zniszcz wszystkie statki 
+=======================================================
 
 mysql> select * from statek;
 +--------------+---------------+----------------+---------------+
@@ -284,6 +330,11 @@ Records: 0  Duplicates: 0  Warnings: 0
 mysql> drop table statek;
 Query OK, 0 rows affected (0.01 sec)
 
+=======================================================
+e) stwórz tabelę zwierz z polami id - klucz główny samo zwiększający się, nazwa - ciąg znaków, wiek -
+liczba
+=======================================================
+
 mysql> CREATE TABLE zwierz(id INT AUTO_INCREMENT PRIMARY KEY,nazwa VARCHAR(40),wiek INT UNSIGNED);
 Query OK, 0 rows affected (0.02 sec)
 
@@ -296,6 +347,10 @@ mysql> desc zwierz;
 | wiek  | int unsigned | YES  |     | NULL    |                |
 +-------+--------------+------+-----+---------+----------------+
 3 rows in set (0.00 sec)
+
+=======================================================
+f) przekopiuj z tabeli postac wszystkie zwierzaki 
+=======================================================
 
 mysql> INSERT INTO zwierz (id,nazwa,wiek) VALUES ('8','Loko','3');
 Query OK, 1 row affected (0.00 sec)
