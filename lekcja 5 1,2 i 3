@@ -1,27 +1,14 @@
-login as: kruszewskim
-kruszewskim@213.184.8.36's password:
-Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200)                                      x86_64
+Spisek
+Po kilku dniach mieszkania z dziadkiem, Bjorn wyszedł pozwiedzać trochę okolicę. Usłyszał 
+jakieś dziwne głosy, krzyki i ryki, które brzmiały znajomo. Nie zastanawiał się długo co to mogło być, 
+tylko od razu uciekł do ich kryjówki. Opowiedział towarzyszom o tym co się stało. Drozda nagle 
+olśniło. Poskładał wszystkie fakty w całość i okazało się, że bardzo prawdopodobnie teściowe mają 
+spisek i próbują odnaleźć zięciów.
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Thu Dec  8 12:56:56 2022 from 213.184.8.151
-kruszewskim@bad2:~$ mysql -u kruszewskim -p
-Enter password:
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8095
-Server version: 8.0.22 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+=======================================================
+1. Przekopiuj jeszcze raz z bazy wikingowie rekordy z tabeli kreatura, przekopiuj dodatkowo 
+tabele: uczestnicy, etapy_wyprawy, sektor, wyprawa, wraz z danymi. 
+=======================================================
 
 mysql> use wikingowie;
 Reading table information for completion of table and column names
@@ -167,6 +154,11 @@ mysql> create table wyprawa select * from wikingowie.wyprawa;
 Query OK, 4 rows affected (0.05 sec)
 Records: 4  Duplicates: 0  Warnings: 0
 
+=======================================================
+2. Wypisz nazwy kreatur, które nie uczestniczyły w żadnej wyprawie.
+=======================================================
+
+
 mysql> select kreatura.nazwa from kreatura where idKreatury not in(select id_uczestnika from uczestnicy where id_uczestnika group by id_uczestnika);
 +----------+
 | nazwa    |
@@ -179,6 +171,12 @@ mysql> select kreatura.nazwa from kreatura where idKreatury not in(select id_ucz
 +----------+
 5 rows in set (0.00 sec)
 
+=======================================================
+3. Dla każdej wyprawy wypisać jej nazwę oraz sumę ilości ekwipunku, jaka została zabrana przez 
+uczestników tej wyprawy.
+=======================================================
+
+
 mysql> select wyprawa.nazwa,sum(ilosc) as ilosc_ekwipunku from uczestnicy join wyprawa on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join ekwipunek on ekwipunek.idKreatury=uczestnicy.id_uczestnika group by wyprawa.id_wyprawy;
 +-----------------------+-----------------+
 | nazwa                 | ilosc_ekwipunku |
@@ -188,6 +186,20 @@ mysql> select wyprawa.nazwa,sum(ilosc) as ilosc_ekwipunku from uczestnicy join w
 | Poszukiwanie ziecia   |               5 |
 +-----------------------+-----------------+
 3 rows in set (0.00 sec)
+
+
+Trudna decyzja
+Mężczyznom nawet nie przyszło do głowy, żeby spotkać się z treściową. Mówili jaka to ona 
+zła, jak im życie zmarnowała i najchętniej wymazaliby ją z pamięci. W chatce czuli się bezpiecznie i nie 
+chcieli jej opuszczać. Drozd nie mógł już tego słuchać i starał się namówić ich, aby jednak stawili jej 
+czoła. Zapytał, czy zamierzają żyć w ciągłym strachu, czy iść do niej, załatwić sprawę po męsku. 
+Ostatecznie, po namowach Drozda podjęli decyzję o podróży.
+
+=======================================================
+Zadanie 2
+1. Dla każdej wyprawy wypisz jej nazwę, liczbę uczestników, oraz nazwy tych uczestników w 
+jednej linii.
+=======================================================
 
 
 mysql> select wyprawa.nazwa as "nazwa_wyprawy", count(id_uczestnika) as "liczba_uczestnikow",group_concat(kreatura.nazwa) as "nazwa_uczestnika" from wyprawa join uczestnicy on wyprawa.id_wyprawy=uczestnicy.id_wyprawy join kreatura on
@@ -200,6 +212,12 @@ kreatura.idKreatury=uczestnicy.id_uczestnika group by wyprawa.nazwa;
 | Poszukiwanie ziecia   |                  5 | Nemo,Tesciowa,Tiki,sztuczna szczeka tesciowej,Tesciowa dziadka |
 +-----------------------+--------------------+----------------------------------------------------------------+
 3 rows in set (0.00 sec)
+
+=======================================================
+2. Wypisz kolejne etaty wszystkich wypraw wraz z nazwami sektorów, sortując najpierw według 
+daty początku wyprawy, a następnie według kolejności występowania etapów. W każdym 
+etapie określ nazwę kierownika danej wyprawy.
+=======================================================
 
 mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",kierownik from wyprawa join etapy_wyprawy on wyprawa.id_wyprawy=etapy_wyprawy.idWyprawy join sektor on sektor.id_sektora=etapy_wyprawy.sektor order by (wyprawa.data_rozpoczecia and etapy_wyprawy.kolejnosc);
 +---------+--------------------+-----------+
@@ -223,6 +241,18 @@ mysql> select etapy_wyprawy.idEtapu,sektor.nazwa as "nazwa sektora",kierownik fr
 +---------+--------------------+-----------+
 15 rows in set (0.00 sec)
 
+Misterny plan
+Przyjaciele nie wiedząc co robić, siedzieli zamyśleni przy stole. Po chwili Drozd wskoczył na 
+stół i powiedział: „Gdy teściowa zły humor ma, to wtedy bigos na nic się zda”. Następnie opowiedział, 
+jak można zwabić, ją pięknym zwierzęcym futrem.
+
+=======================================================
+Zadanie 3
+1. Wypisać ile razy dany sektor był odwiedzany podczas wszystkich wypraw (nazwa sektora, 
+ilość odwiedzin). Jeśli nie był odwiedzony ani razu, wpisz zero. 
+=======================================================
+
+
 mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor left join(select etapy_wyprawy.sektor from etapy_wyprawy group by sektor) sub on sektor.id_sektora=sub.sektor group by sektor.id_sektora;
 +--------------------+-----------------+
 | nazwa              | ilosc_odwiedzin |
@@ -238,6 +268,12 @@ mysql> select sektor.nazwa,count(sub.sektor) as "ilosc_odwiedzin" from sektor le
 | Zatoka rekinow     |               1 |
 +--------------------+-----------------+
 9 rows in set (0.00 sec)
+
+=======================================================
+2. W zależności od ilości wypraw, w jakich brała udział dana kreatura wypisz: nazwa kreatury, 
+'brał udział w wyprawie' - gdy liczba > 0, 'nie brał udziału w wyprawie', gdy równa zero.
+=======================================================
+
 
 mysql> select kreatura.nazwa,if(count(uczestnicy.id_uczestnika)>0,'bral udzial w wyprawie','nie bral udzialu w wyprawie') from kreatura left join uczestnicy on kreatura.idKreatury=uczestnicy.id_uczestnika group by kreatura.idKreatury;
 +----------------------------+----------------------------------------------------------------------------------------------+
@@ -264,6 +300,3 @@ mysql> select kreatura.nazwa,if(count(uczestnicy.id_uczestnika)>0,'bral udzial w
 | Gollum                     | nie bral udzialu w wyprawie                                                                  |
 | Babajaga                   | nie bral udzialu w wyprawie                                                                  |
 +----------------------------+----------------------------------------------------------------------------------------------+
-20 rows in set (0.00 sec)
-
-mysql>
