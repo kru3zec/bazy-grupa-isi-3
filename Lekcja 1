@@ -1,0 +1,563 @@
+LIST
+Za górami, za lasami żył sobie Bjorn. Pewnego zimnego ranka obudziło go stukanie w okno. Po 
+paru chwilach, gdy w końcu udało mu się otworzyć oczy, zobaczył Drozda z liścikiem w dziobie. Wystraszył 
+się, że to kolejne pismo od komornika. Po otwarciu koperty zobaczył to … „Przyjeżdżam za 6 tygodni, mam 
+nadzieje, że przygotujesz dla mnie cos dobrego… - TEŚCIOWA.”
+
+=======================================================
+1. Stwórz tabelę postac z następującymi polami:
+a. id_postaci kl. główny, liczba samozwiększająca się
+b. nazwa - ciąg znaków max 40
+c. rodzaj - typ wyliczeniowy (wiking, ptak, kobieta)
+d. data_ur - typ daty
+e. wiek - liczba nieujemna.
+=======================================================
+
+mysql> CREATE TABLE postacie (id_postaci INT AUTO_INCREMENT NOT NULL PRIMARY KEY,nazwa VARCHAR(40),rodzaj ENUM('wiking','ptak','kobieta'),data_ur DATE,wiek INT UNSIGNED);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW TABLES;
++-----------------------+
+| Tables_in_kruszewskim |
++-----------------------+
+| postacie              |
++-----------------------+
+
+
+mysql> DESC postacie;
++------------+---------------------------------+------+-----+---------+----------------+
+| Field      | Type                            | Null | Key | Default | Extra          |
++------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa      | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj     | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| data_ur    | date                            | YES  |     | NULL    |                |
+| wiek       | int unsigned                    | YES  |     | NULL    |                |
++------------+---------------------------------+------+-----+---------+----------------+
+
+=======================================================
+2. Do tabeli postac dodaj rekordy, gdzie kolumna nazwa to Bjorn, Drozd, Tesciowa (w pozostałe 
+pola wpisz w miarę sensowne dane) 
+=======================================================
+
+
+mysql> INSERT INTO postacie (nazwa,rodzaj,data_ur,wiek)
+    -> values('Bjorn','wiking','1788-05-03','69');
+
+
+mysql> DESC postacie;
++------------+---------------------------------+------+-----+---------+----------------+
+| Field      | Type                            | Null | Key | Default | Extra          |
++------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa      | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj     | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| data_ur    | date                            | YES  |     | NULL    |                |
+| wiek       | int unsigned                    | YES  |     | NULL    |                |
++------------+---------------------------------+------+-----+---------+----------------+
+
+
+mysql> INSERT INTO postacie (nazwa,rodzaj,data_ur,wiek) values('Bjorn','wiking','1788-05-03','1')
+
+
+mysql> select * from postacie;
++------------+-------+--------+------------+------+
+| id_postaci | nazwa | rodzaj | data_ur    | wiek |
++------------+-------+--------+------------+------+
+|          1 | Bjorn | wiking | 1788-05-03 |   69 |
++------------+-------+--------+------------+------+
+
+
+mysql> INSERT INTO postacie (nazwa,rodzaj,data_ur,wiek) values('Drozd','ptak','1808-11-02','2')
+
+
+mysql> select * from postacie;
++------------+-------+--------+------------+------+
+| id_postaci | nazwa | rodzaj | data_ur    | wiek |
++------------+-------+--------+------------+------+
+|          1 | Bjorn | wiking | 1788-05-03 |   69 |
+|          2 | Drozd | ptak   | 1808-11-02 |   10 |
++------------+-------+--------+------------+------+
+
+
+mysql> INSERT INTO postacie (nazwa,rodzaj,data_ur,wiek) values('Tesciowa','kobieta','1754-07-12', '3')
+
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   69 |
++------------+----------+---------+------------+------+
+
+=======================================================
+3. Zmodyfikuj wiek teściowej na 88 lat.
+=======================================================
+
+mysql> UPDATE postacie SET wiek = '88' WHERE id_postaci = 3;
+
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   88 |
++------------+----------+---------+------------+------+
+
+PANIKA
+Bjorn ze strachu przed swoja teściową zaczął pakować wszystkie potrzebne i niepotrzebne 
+rzeczy. Zastanawiał się długo, gdzie mógłby się przed nią schować. W końcu przyleciał drozd 
+radząc, by wiał gdzie pieprz rośnie.
+
+=======================================================
+Zadanie 2
+1. Stwórz tabelę walizka:
+a. id_walizki - liczba samozwiększająca się, klucz główny
+b. pojemnosc - liczba nieujemna
+c. kolor - typ wyliczeniowy (różowy, czerwony, tęczowy, żółty)
+d. id_wlasciciela - klucz obcy odwołujący się do tabeli postać, ustawione kaskadowe 
+usuwanie.
+=======================================================
+
+mysql> CREATE TABLE walizka (id_walizki INT AUTO_INCREMENT NOT NULL PRIMARY KEY,pojemnosc INT UNSIGNED,kolor ENUM('rozowy','czerwony','teczowy','zolty'),id_wlasciciela INT, FOREIGN KEY (id_wlasciciela) REFERENCES postacie(id_postaci) ON DELETE CASCADE);
+
+mysql> DESC walizka;
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| Field          | Type                                        | Null | Key | Default | Extra          |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| id_walizki     | int                                         | NO   | PRI | NULL    | auto_increment |
+| pojemnosc      | int unsigned                                | YES  |     | NULL    |                |
+| kolor          | enum('rozowy','czerwony','teczowy','zolty') | YES  |     | NULL    |                |
+| id_wlasciciela | int                                         | YES  | MUL | NULL    |                |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+
+=======================================================
+2. Dodaj do pola kolor wartość domyślną – różowy.
+=======================================================
+
+
+mysql> ALTER TABLE walizka ALTER COLUMN kolor set DEFAULT 'rozowy';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC walizka;
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| Field          | Type                                        | Null | Key | Default | Extra          |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+| id_walizki     | int                                         | NO   | PRI | NULL    | auto_increment |
+| pojemnosc      | int unsigned                                | YES  |     | NULL    |                |
+| kolor          | enum('rozowy','czerwony','teczowy','zolty') | YES  |     | rozowy  |                |
+| id_wlasciciela | int                                         | YES  | MUL | NULL    |                |
++----------------+---------------------------------------------+------+-----+---------+----------------+
+
+
+=======================================================
+3. Dodaj jedną walizkę dla Bjorna i jedną walizkę dla teściowej.
+=======================================================
+
+mysql> INSERT INTO walizka (id_walizki,pojemnosc,kolor,id_wlasciciela) VALUES ('1','60','czerwony','1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from walizka;
++------------+-----------+----------+----------------+
+| id_walizki | pojemnosc | kolor    | id_wlasciciela |
++------------+-----------+----------+----------------+
+|          1 |        60 | czerwony |              1 |
++------------+-----------+----------+----------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO walizka (id_walizki,pojemnosc,kolor,id_wlasciciela) VALUES ('2','99','rozowy','3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from walizka;
++------------+-----------+----------+----------------+
+| id_walizki | pojemnosc | kolor    | id_wlasciciela |
++------------+-----------+----------+----------------+
+|          1 |        60 | czerwony |              1 |
+|          2 |        99 | rozowy   |              3 |
++------------+-----------+----------+----------------+
+
+
+NIESPODZIANKA
+Bjorn postanowił zostawić małą niespodziankę swojej teściowej. Wiedział, że ta nie wytrzymałaby bez 
+zaglądania do spiżarni, gdzie trzymał jej ukochany bigos, dlatego do każdego słoika dodał po kilka 
+papryczek chili. W taki sposób teściowa posiadła umiejętność ziania ogniem.
+
+=======================================================
+Zadanie 3
+1. Stwórz tabelę izba z polami:
+a. adres_budynku - część klucza głównego
+b. nazwa_izby - część klucza głównego
+c. metraz - liczba nieujemna 
+d. wlasciciel - klucz obcy do tabeli postać, ustaw null w razie usunięcia.
+=======================================================
+
+mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
+KEY (wlasciciel) REFERENCES postacie(id_postaci)ON DELETE SET NULL ,PRIMARY KEY(adres_budynku,nazwa_izby));
+
+
+mysql> desc izba;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| adres_budynku | varchar(40)  | NO   | PRI | NULL    |       |
+| nazwa_izby    | varchar(40)  | NO   | PRI | NULL    |       |
+| metraz        | int unsigned | YES  |     | NULL    |       |
+| wlasciciel    | int          | YES  | MUL | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+=======================================================
+2. Za pomocą oddzielnego polecenia dodaj pole kolor izby po polu metraż. Ustaw 
+domyślny kolor na czarny.
+=======================================================
+
+
+mysql> ALTER TABLE izba ADD COLUMN kolor_izby VARCHAR(20) AFTER metraz;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE izba ALTER COLUMN kolor_izby set DEFAULT 'czarny';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc izba;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| adres_budynku | varchar(40)  | NO   | PRI | NULL    |       |
+| nazwa_izby    | varchar(40)  | NO   | PRI | NULL    |       |
+| metraz        | int unsigned | YES  |     | NULL    |       |
+| kolor_izby    | varchar(20)  | YES  |     | NULL    |       |
+| wlasciciel    | int          | YES  | MUL | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+=======================================================
+3. Stwórz izbę spiżarnia.
+=======================================================
+
+mysql> INSERT INTO izba(adres_budynku,nazwa_izby) VALUES ('adres','spizarnia');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from izba;
++---------------+------------+--------+------------+------------+
+| adres_budynku | nazwa_izby | metraz | kolor_izby | wlasciciel |
++---------------+------------+--------+------------+------------+
+| adres         | spizarnia  |   NULL | NULL       |       NULL |
++---------------+------------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+KOSZMAR
+Po długim marszu Bjorn i Drozd, postanowili uciąć sobie drzemkę pod drzewem. Przyśnił mu się 
+dzień, w którym niespodziewanie odwiedziła go teściowa. Z hukiem wpadła do chatki, domagając się 
+obiadku. Wyczyściła mu z bigosu całą spiżarnię, a Bjorn tylko biegał z garem, żeby dać jej dokładkę. 
+Niestety, niechcący albo chcący wpadł mu do kotła czosnek. Staruszka zaczęła się dusić, bo okazało 
+się, że jest na niego uczulona. Po przebudzeniu olśniło Bjorna i udał się na pobliskie pole z czosnkiem, 
+aby w razie czego mieć coś do obrony.
+
+=======================================================
+Zadanie 4
+1. Stwórz tabelę przetwory z polami:
+a. id_przetworu - klucz główny
+b. rok_produkcji - typ roku, domyślnie 1654
+c. id_wykonawcy - klucz obcy do tabeli postać
+d. zawartosc - ciąg znaków
+e. dodatek - ciąg znaków - domyślnie papryczka chilli
+f. id_konsumenta - klucz obcy do tabeli postać
+=======================================================
+
+
+mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta INT ,FOREIGN KEY(id_konsumenta) REFERENCES postacie(id_postaci));
+
+mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT '1954';
+
+mysql> ALTER TABLE przetwory ALTER COLUMN dodatek set DEFAULT'papryczka_chilli';
+
+
+mysql> desc przetwory;
++---------------+-------------+------+-----+------------------+-------+
+| Field         | Type        | Null | Key | Default          | Extra |
++---------------+-------------+------+-----+------------------+-------+
+| id_przetwory  | int         | NO   | PRI | NULL             |       |
+| rok_produkcji | year        | YES  |     | 1954             |       |
+| id_wykonawcy  | int         | YES  | MUL | NULL             |       |
+| zawartosc     | varchar(40) | YES  |     | NULL             |       |
+| dodatek       | varchar(40) | YES  |     | papryczka_chilli |       |
+| id_konsumenta | int         | YES  | MUL | NULL             |       |
++---------------+-------------+------+-----+------------------+-------+
+
+=======================================================
+2. Wstaw bigos z papryczką chilli do tabeli przetwory.
+=======================================================
+
+mysql> INSERT INTO przetwory (id_przetwory,zawartosc) VALUES ('1','bigos');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from przetwory;
++--------------+---------------+--------------+-----------+------------------+---------------+
+| id_przetwory | rok_produkcji | id_wykonawcy | zawartosc | dodatek          | id_konsumenta |
++--------------+---------------+--------------+-----------+------------------+---------------+
+|            1 |          1954 |         NULL | bigos     | papryczka_chilli |          NULL |
++--------------+---------------+--------------+-----------+------------------+---------------+
+
+
+UCIECZKA
+W celu zebrania załogi na swój statek, Bjorn chodził od chatki do chatki prosić innych ludzi, aby 
+zgodzili się na wspólną ucieczkę. Mało kto chciał otworzyć mu drzwi, bo bali się, że Teściowa, która 
+jest postrachem nie tylko Bjorna, ale też całej wioski – wcześniej przyjechała. Jednak przyjemny 
+odgłos ćwierkania Drozda pozwolił im uwierzyć, że to nie to, o czym myślą. Po wysłuchaniu próśb 
+biednego wikinga, zgodzili się towarzyszyć mu w wyprawie. Wszyscy razem udali się do portu, gdzie 
+zaczęli wspólną przygodę
+
+=======================================================
+Zadanie 5
+1. Wstaw 5 wikingów do tabeli postaci.
+=======================================================
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   88 |
++------------+----------+---------+------------+------+
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('4','Prozd','wiking','1785-12-17','67');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('5','Gast','wiking','1786-10-02','68');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('6','Hal','wiking','1790-04-25','71');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('7','Kurn','wiking','1784-06-12','66');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('8','Mat','wiking','1783-02-03','65');
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | 1783-02-03 |   65 |
++------------+----------+---------+------------+------+
+
+=======================================================
+2. Stwórz tabelę statek z polami:
+a. nazwa statku - klucz główny
+b. rodzaj statku - typ wyliczeniowy
+c. data wodowania - typ daty
+d. max_ladownosc - liczba dodatnia
+=======================================================
+
+
+mysql> CREATE TABLE statek(nazwa_statku INT PRIMARY KEY,rodzaj_statku ENUM('wojenne','pasazerskie','sportowe','handlowe'),data_wodowania DATE,max_ladownosc INT UNSIGNED);
+
+mysql> desc statek;
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                | Null | Key | Default | Extra |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| nazwa_statku   | int                                                 | NO   | PRI | NULL    |       |
+| rodzaj_statku  | enum('wojenne','pasazerskie','sportowe','handlowe') | YES  |     | NULL    |       |
+| data_wodowania | date                                                | YES  |     | NULL    |       |
+| max_ladownosc  | int unsigned                                        | YES  |     | NULL    |       |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+
+=======================================================
+3. Dodaj dwa statki do tabeli.
+=======================================================
+
+mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('1','handlowe','1769-04-12','1600');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('2','sportowe','1789-03-13','1000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+|            1 | handlowe      | 1769-04-12     |          1600 |
+|            2 | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
+
+
+=======================================================
+4. Dodaj pola do tabeli postac:
+a. funkcja - ciąg znaków. 
+=======================================================
+
+
+mysql> ALTER TABLE postacie ADD COLUMN funkcja VARCHAR(40) AFTER rodzaj;
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from postacie;
++------------+----------+---------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | funkcja | data_ur    | wiek |
++------------+----------+---------+---------+------------+------+
+|          1 | Bjorn    | wiking  | NULL    | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | NULL    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | NULL    | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | NULL    | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | NULL    | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | NULL    | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | NULL    | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | NULL    | 1783-02-03 |   65 |
++------------+----------+---------+---------+------------+------+
+
+
+=======================================================
+5. Zmień funkcję u Bjorna na kapitan.
+=======================================================
+
+mysql> UPDATE postacie SET funkcja = 'kapitan' WHERE id_postaci = 1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from postacie;
++------------+----------+---------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | funkcja | data_ur    | wiek |
++------------+----------+---------+---------+------------+------+
+|          1 | Bjorn    | wiking  | kapitan | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | NULL    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | NULL    | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | NULL    | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | NULL    | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | NULL    | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | NULL    | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | NULL    | 1783-02-03 |   65 |
++------------+----------+---------+---------+------------+------+
+
+=======================================================
+6. Dodaj klucz obcy w tabeli postać odwołujący się do statku.
+=======================================================
+
+mysql> ALTER TABLE postacie ADD COLUMN statek_postaci VARCHAR(40) AFTER funkcja;
+
+
+mysql> DESC postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  |     | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+
+
+mysql> desc statek;
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                | Null | Key | Default | Extra |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| nazwa_statku   | varchar(40)                                         | NO   | PRI | NULL    |       |
+| rodzaj_statku  | enum('wojenne','pasazerskie','sportowe','handlowe') | YES  |     | NULL    |       |
+| data_wodowania | date                                                | YES  |     | NULL    |       |
+| max_ladownosc  | int unsigned                                        | YES  |     | NULL    |       |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+
+mysql> ALTER TABLE postacie ADD CONSTRAINT FOREIGN KEY(statek_postaci) REFERENCES statek(nazwa_statku);
+
+mysql> desc postacie;
++----------------+---------------------------------+------+-----+---------+----------------+
+| Field          | Type                            | Null | Key | Default | Extra          |
++----------------+---------------------------------+------+-----+---------+----------------+
+| id_postaci     | int                             | NO   | PRI | NULL    | auto_increment |
+| nazwa          | varchar(40)                     | YES  |     | NULL    |                |
+| rodzaj         | enum('wiking','ptak','kobieta') | YES  |     | NULL    |                |
+| funkcja        | varchar(40)                     | YES  |     | NULL    |                |
+| statek_postaci | varchar(40)                     | YES  | MUL | NULL    |                |
+| data_ur        | date                            | YES  |     | NULL    |                |
+| wiek           | int unsigned                    | YES  |     | NULL    |                |
++----------------+---------------------------------+------+-----+---------+----------------+
+
+
+mysql> select * from postacie;
++------------+----------+---------+---------+----------------+------------+------+
+| id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++------------+----------+---------+---------+----------------+------------+------+
+|          1 | Bjorn    | wiking  | kapitan | NULL           | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | NULL    | NULL           | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | NULL    | NULL           | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | NULL    | NULL           | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | NULL    | NULL           | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | NULL    | NULL           | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | NULL    | NULL           | 1783-02-03 |   65 |
++------------+----------+---------+---------+----------------+------------+------+
+
+=======================================================
+7. Powsadzaj wikingów oraz drozda na statki. 
+=======================================================
+
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+| 1            | handlowe      | 1769-04-12     |          1600 |
+| 2            | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
+
+
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 1;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 2;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 4;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 5;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 6;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 7;
+
+mysql> UPDATE postacie SET statek_postaci = 'handlowe' WHERE id_postaci = 8;
+
+mysql> select * from postacie;
++------------+----------+---------+---------+----------------+------------+------+
+| id_postaci | nazwa    | rodzaj  | funkcja | statek_postaci | data_ur    | wiek |
++------------+----------+---------+---------+----------------+------------+------+
+|          1 | Bjorn    | wiking  | kapitan | handlowe       | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | NULL    | handlowe       | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | NULL    | NULL           | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | NULL    | handlowe       | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | NULL    | handlowe       | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | NULL    | handlowe       | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | NULL    | handlowe       | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | NULL    | handlowe       | 1783-02-03 |   65 |
++------------+----------+---------+---------+----------------+------------+------+
+
+????
+=======================================================
+8. Usuń izbę spiżarnia z tabeli izba.
+9. Usuń tabelę izba.
+=======================================================
+
+mysql> select * from izba;
++---------------+------------+--------+------------+------------+
+| adres_budynku | nazwa_izby | metraz | kolor_izby | wlasciciel |
++---------------+------------+--------+------------+------------+
+| adres         | spizarnia  |   NULL | NULL       |       NULL |
++---------------+------------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> DROP TABLE izba;
+Query OK, 0 rows affected (0.02 sec)
