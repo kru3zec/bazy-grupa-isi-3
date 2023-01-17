@@ -201,3 +201,11 @@ Query OK, 1 row affected (0.00 sec)
 
 mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('2','sportowe','1789-03-13','1000');
 Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from statek;
++--------------+---------------+----------------+---------------+
+| nazwa_statku | rodzaj_statku | data_wodowania | max_ladownosc |
++--------------+---------------+----------------+---------------+
+|            1 | handlowe      | 1769-04-12     |          1600 |
+|            2 | sportowe      | 1789-03-13     |          1000 |
++--------------+---------------+----------------+---------------+
