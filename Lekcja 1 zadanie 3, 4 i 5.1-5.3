@@ -1,0 +1,203 @@
+NIESPODZIANKA
+Bjorn postanowił zostawić małą niespodziankę swojej teściowej. Wiedział, że ta nie wytrzymałaby bez 
+zaglądania do spiżarni, gdzie trzymał jej ukochany bigos, dlatego do każdego słoika dodał po kilka 
+papryczek chili. W taki sposób teściowa posiadła umiejętność ziania ogniem.
+
+=======================================================
+Zadanie 3
+1. Stwórz tabelę izba z polami:
+a. adres_budynku - część klucza głównego
+b. nazwa_izby - część klucza głównego
+c. metraz - liczba nieujemna 
+d. wlasciciel - klucz obcy do tabeli postać, ustaw null w razie usunięcia.
+=======================================================
+
+mysql> CREATE TABLE izba(adres_budynku VARCHAR(40),nazwa_izby VARCHAR(40),metraz INT UNSIGNED,wlasciciel INT,FOREIGN
+KEY (wlasciciel) REFERENCES postacie(id_postaci)ON DELETE SET NULL ,PRIMARY KEY(adres_budynku,nazwa_izby));
+
+
+mysql> desc izba;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| adres_budynku | varchar(40)  | NO   | PRI | NULL    |       |
+| nazwa_izby    | varchar(40)  | NO   | PRI | NULL    |       |
+| metraz        | int unsigned | YES  |     | NULL    |       |
+| wlasciciel    | int          | YES  | MUL | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+=======================================================
+2. Za pomocą oddzielnego polecenia dodaj pole kolor izby po polu metraż. Ustaw 
+domyślny kolor na czarny.
+=======================================================
+
+
+mysql> ALTER TABLE izba ADD COLUMN kolor_izby VARCHAR(20) AFTER metraz;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE izba ALTER COLUMN kolor_izby set DEFAULT 'czarny';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc izba;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| adres_budynku | varchar(40)  | NO   | PRI | NULL    |       |
+| nazwa_izby    | varchar(40)  | NO   | PRI | NULL    |       |
+| metraz        | int unsigned | YES  |     | NULL    |       |
+| kolor_izby    | varchar(20)  | YES  |     | NULL    |       |
+| wlasciciel    | int          | YES  | MUL | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+=======================================================
+3. Stwórz izbę spiżarnia.
+=======================================================
+
+mysql> INSERT INTO izba(adres_budynku,nazwa_izby) VALUES ('adres','spizarnia');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from izba;
++---------------+------------+--------+------------+------------+
+| adres_budynku | nazwa_izby | metraz | kolor_izby | wlasciciel |
++---------------+------------+--------+------------+------------+
+| adres         | spizarnia  |   NULL | NULL       |       NULL |
++---------------+------------+--------+------------+------------+
+1 row in set (0.00 sec)
+
+KOSZMAR
+Po długim marszu Bjorn i Drozd, postanowili uciąć sobie drzemkę pod drzewem. Przyśnił mu się 
+dzień, w którym niespodziewanie odwiedziła go teściowa. Z hukiem wpadła do chatki, domagając się 
+obiadku. Wyczyściła mu z bigosu całą spiżarnię, a Bjorn tylko biegał z garem, żeby dać jej dokładkę. 
+Niestety, niechcący albo chcący wpadł mu do kotła czosnek. Staruszka zaczęła się dusić, bo okazało 
+się, że jest na niego uczulona. Po przebudzeniu olśniło Bjorna i udał się na pobliskie pole z czosnkiem, 
+aby w razie czego mieć coś do obrony.
+
+=======================================================
+Zadanie 4
+1. Stwórz tabelę przetwory z polami:
+a. id_przetworu - klucz główny
+b. rok_produkcji - typ roku, domyślnie 1654
+c. id_wykonawcy - klucz obcy do tabeli postać
+d. zawartosc - ciąg znaków
+e. dodatek - ciąg znaków - domyślnie papryczka chilli
+f. id_konsumenta - klucz obcy do tabeli postać
+=======================================================
+
+
+mysql> CREATE TABLE przetwory(id_przetwory INT PRIMARY KEY,rok_produkcji YEAR,id_wykonawcy INT,FOREIGN KEY(id_wykonawcy) REFERENCES postacie(id_postaci),zawartosc VARCHAR(40),dodatek VARCHAR(40),id_konsumenta INT ,FOREIGN KEY(id_konsumenta) REFERENCES postacie(id_postaci));
+
+mysql> ALTER TABLE przetwory ALTER COLUMN rok_produkcji set DEFAULT '1954';
+
+mysql> ALTER TABLE przetwory ALTER COLUMN dodatek set DEFAULT'papryczka_chilli';
+
+
+mysql> desc przetwory;
++---------------+-------------+------+-----+------------------+-------+
+| Field         | Type        | Null | Key | Default          | Extra |
++---------------+-------------+------+-----+------------------+-------+
+| id_przetwory  | int         | NO   | PRI | NULL             |       |
+| rok_produkcji | year        | YES  |     | 1954             |       |
+| id_wykonawcy  | int         | YES  | MUL | NULL             |       |
+| zawartosc     | varchar(40) | YES  |     | NULL             |       |
+| dodatek       | varchar(40) | YES  |     | papryczka_chilli |       |
+| id_konsumenta | int         | YES  | MUL | NULL             |       |
++---------------+-------------+------+-----+------------------+-------+
+
+=======================================================
+2. Wstaw bigos z papryczką chilli do tabeli przetwory.
+=======================================================
+
+mysql> INSERT INTO przetwory (id_przetwory,zawartosc) VALUES ('1','bigos');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from przetwory;
++--------------+---------------+--------------+-----------+------------------+---------------+
+| id_przetwory | rok_produkcji | id_wykonawcy | zawartosc | dodatek          | id_konsumenta |
++--------------+---------------+--------------+-----------+------------------+---------------+
+|            1 |          1954 |         NULL | bigos     | papryczka_chilli |          NULL |
++--------------+---------------+--------------+-----------+------------------+---------------+
+
+
+UCIECZKA
+W celu zebrania załogi na swój statek, Bjorn chodził od chatki do chatki prosić innych ludzi, aby 
+zgodzili się na wspólną ucieczkę. Mało kto chciał otworzyć mu drzwi, bo bali się, że Teściowa, która 
+jest postrachem nie tylko Bjorna, ale też całej wioski – wcześniej przyjechała. Jednak przyjemny 
+odgłos ćwierkania Drozda pozwolił im uwierzyć, że to nie to, o czym myślą. Po wysłuchaniu próśb 
+biednego wikinga, zgodzili się towarzyszyć mu w wyprawie. Wszyscy razem udali się do portu, gdzie 
+zaczęli wspólną przygodę
+
+=======================================================
+Zadanie 5
+1. Wstaw 5 wikingów do tabeli postaci.
+=======================================================
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   88 |
++------------+----------+---------+------------+------+
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('4','Prozd','wiking','1785-12-17','67');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('5','Gast','wiking','1786-10-02','68');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('6','Hal','wiking','1790-04-25','71');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('7','Kurn','wiking','1784-06-12','66');
+
+mysql> INSERT INTO postacie(id_postaci,nazwa,rodzaj,data_ur,wiek)
+    -> VALUES ('8','Mat','wiking','1783-02-03','65');
+
+mysql> select * from postacie;
++------------+----------+---------+------------+------+
+| id_postaci | nazwa    | rodzaj  | data_ur    | wiek |
++------------+----------+---------+------------+------+
+|          1 | Bjorn    | wiking  | 1788-05-03 |   69 |
+|          2 | Drozd    | ptak    | 1808-11-02 |   10 |
+|          3 | Tesciowa | kobieta | 1754-07-12 |   88 |
+|          4 | Prozd    | wiking  | 1785-12-17 |   67 |
+|          5 | Gast     | wiking  | 1786-10-02 |   68 |
+|          6 | Hal      | wiking  | 1790-04-25 |   71 |
+|          7 | Kurn     | wiking  | 1784-06-12 |   66 |
+|          8 | Mat      | wiking  | 1783-02-03 |   65 |
++------------+----------+---------+------------+------+
+
+=======================================================
+2. Stwórz tabelę statek z polami:
+a. nazwa statku - klucz główny
+b. rodzaj statku - typ wyliczeniowy
+c. data wodowania - typ daty
+d. max_ladownosc - liczba dodatnia
+=======================================================
+
+
+mysql> CREATE TABLE statek(nazwa_statku INT PRIMARY KEY,rodzaj_statku ENUM('wojenne','pasazerskie','sportowe','handlowe'),data_wodowania DATE,max_ladownosc INT UNSIGNED);
+
+mysql> desc statek;
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                | Null | Key | Default | Extra |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+| nazwa_statku   | int                                                 | NO   | PRI | NULL    |       |
+| rodzaj_statku  | enum('wojenne','pasazerskie','sportowe','handlowe') | YES  |     | NULL    |       |
+| data_wodowania | date                                                | YES  |     | NULL    |       |
+| max_ladownosc  | int unsigned                                        | YES  |     | NULL    |       |
++----------------+-----------------------------------------------------+------+-----+---------+-------+
+
+=======================================================
+3. Dodaj dwa statki do tabeli.
+=======================================================
+
+mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('1','handlowe','1769-04-12','1600');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO statek(nazwa_statku,rodzaj_statku,data_wodowania,max_ladownosc) VALUES ('2','sportowe','1789-03-13','1000');
+Query OK, 1 row affected (0.00 sec)
