@@ -64,3 +64,23 @@ mysql> select kreatura.nazwa as "kreatura", zasob.nazwa as "nazwy zasobu" from e
 | Bjorn     | stanik            |
 | Bjorn     | topor             |
 +-----------+-------------------+
+
+=======================================================
+3. Wyświetlić kreatury, które nie posiadają żadnego ekwipunku.
+=======================================================
+
+mysql> select kreatura.nazwa, kreatura.idKreatury from kreatura left join ekwipunek on ekwipunek.idKreatury = kreatura.idKreatury where ekwipunek.idKreatury is NULL group by kreatura.nazwa;
++----------------------------+------------+
+| nazwa                      | idKreatury |
++----------------------------+------------+
+| Birgun                     |          4 |
+| Nemo                       |          9 |
+| Loko                       |         10 |
+| Ara                        |         12 |
+| Tiki                       |         15 |
+| Dziadek                    |         16 |
+| sztuczna szczeka tesciowej |         17 |
+| Tesciowa dziadka           |         18 |
+| Gollum                     |         19 |
+| Babajaga                   |        100 |
++----------------------------+------------+
